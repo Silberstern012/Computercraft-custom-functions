@@ -790,15 +790,8 @@ function minearea(pos1, pos2)
 end
 
 
-------------------------------------------------------------
--- EXAMPLE
-------------------------------------------------------------
 
--- Uncomment this to run automatically.
-
--- minearea(
---     {x = 100, y = 20, z = -50},
---     {x = 110, y = 25, z = -40}
--- )
-
-return {minearea = minearea}
+minearea(
+    {x = -3011, y = 1, z = -9689},
+    {x = -3015, y = -3, z = -9646}
+)
