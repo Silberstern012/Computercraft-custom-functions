@@ -570,7 +570,7 @@ function minearea(pos1, pos2)
     -- Get current position
     --------------------------------------------------------
 
-    local pos, err = getPos()
+    local pos, err = getPosition()
 
     if not pos then
         error("GPS error: " .. err)
@@ -652,7 +652,7 @@ function minearea(pos1, pos2)
 
             while true do
 
-                local current, gpsError = getPos()
+                local current, gpsError = getPosition()
 
                 if not current then
                     error("GPS lost: " .. gpsError)
