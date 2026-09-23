@@ -538,27 +538,7 @@ end
 
 function minearea(pos1, pos2)
 
-    --------------------------------------------------------
-    -- Validate positions
-    --------------------------------------------------------
-
-    if not pos1 or not pos2 then
-        error("minearea requires pos1 and pos2")
-    end
-
-    if not pos1.x or not pos1.y or not pos1.z then
-        error("pos1 must contain x, y and z")
-    end
-
-    if not pos2.x or not pos2.y or not pos2.z then
-        error("pos2 must contain x, y and z")
-    end
-
-
-    --------------------------------------------------------
     -- Normalize coordinates
-    --------------------------------------------------------
-
     local minX = math.min(pos1.x, pos2.x)
     local maxX = math.max(pos1.x, pos2.x)
 
@@ -568,225 +548,196 @@ function minearea(pos1, pos2)
     local minZ = math.min(pos1.z, pos2.z)
     local maxZ = math.max(pos1.z, pos2.z)
 
-
     print("================================")
-    print("       TURTLE AREA MINER")
+    print("       AREA MINER")
     print("================================")
 
     print(
-        "Area: (" ..
-        minX .. "," ..
-        minY .. "," ..
-        minZ .. ") -> (" ..
-        maxX .. "," ..
-        maxY .. "," ..
-        maxZ .. ")"
+        "From: " ..
+        minX .. ", " ..
+        minY .. ", " ..
+        minZ
     )
 
+    print(
+        "To:   " ..
+        maxX .. ", " ..
+        maxY .. ", " ..
+        maxZ
+    )
 
     --------------------------------------------------------
-    -- GPS
+    -- Get current position
     --------------------------------------------------------
 
-    local ok, err = updatePosition()
+    local pos, err = getPos()
 
-    if not ok then
+    if not pos then
         error("GPS error: " .. err)
     end
 
-
     --------------------------------------------------------
-    -- Determine rotation
+    -- Determine current direction
     --------------------------------------------------------
 
-    if state.direction == nil then
-        ok, err = determineDirection()
+    print("Detecting direction...")
 
-        if not ok then
-            error("Direction error: " .. err)
-        end
+    local direction, directionError = getDirection()
+
+    if not direction then
+        error(directionError)
     end
 
+    print("Direction: " .. direction)
 
     --------------------------------------------------------
-    -- fuel request
+    -- Go to starting corner
     --------------------------------------------------------
 
-    if not ensureFuel() then
-        error("No fuel available")
-    end
+    print("Going to starting corner...")
 
-
-    --------------------------------------------------------
-    -- Move to starting position
-    --------------------------------------------------------
-
-    print("Moving to starting position...")
-
-    ok, err = moveTo({
-        x = minX,
-        y = minY,
-        z = minZ
-    })
+    local ok, result = goTo(
+        {
+            x = minX,
+            y = minY,
+            z = minZ
+        },
+        direction
+    )
 
     if not ok then
-        error("Could not reach starting position: " .. err)
+        error("Could not reach starting corner: " .. result)
     end
 
+    direction = result
+
+    --------------------------------------------------------
+    -- Mine layers
+    --------------------------------------------------------
 
     for y = minY, maxY do
 
-        print("Mining Y level " .. y)
+        print("")
+        print("Mining layer Y = " .. y)
 
-        local forwardDirection
+        -- Every second Y layer reverses the Z direction.
+        local zForward = ((y - minY) % 2 == 0)
 
-        if (y - minY) % 2 == 0 then
-            forwardDirection = 1 -- +X
+        local currentZ
+
+        if zForward then
+            currentZ = minZ
         else
-            forwardDirection = 3 -- -X
+            currentZ = maxZ
         end
-
-
-        ----------------------------------------------------
-        -- Start of row
-        ----------------------------------------------------
-
-        local startX
-
-        if forwardDirection == 1 then
-            startX = minX
-        else
-            startX = maxX
-        end
-
-
-        -- Make sure we're at the correct X.
-        ok, err = moveTo({
-            x = startX,
-            y = y,
-            z = minZ
-        })
-
-        if not ok then
-            error("Navigation failed: " .. err)
-        end
-
 
         ----------------------------------------------------
         -- Z rows
         ----------------------------------------------------
 
-        local z = minZ
-        local reverseZ = false
-
-        while z <= maxZ do
-
-            ------------------------------------------------
-            -- Mine along X
-            ------------------------------------------------
+        for row = 0, (maxZ - minZ) do
 
             local targetX
 
-            if forwardDirection == 1 then
+            -- Alternate X direction every row.
+            if row % 2 == 0 then
                 targetX = maxX
             else
                 targetX = minX
             end
 
-
             ------------------------------------------------
-            -- Mine the row
+            -- Move across X
             ------------------------------------------------
 
-            while state.x ~= targetX do
+            while true do
 
-                if forwardDirection == 1 then
-                    face(1)
-                else
-                    face(3)
+                local current, gpsError = getPos()
+
+                if not current then
+                    error("GPS lost: " .. gpsError)
                 end
 
-                local moved, moveError = forward()
+                if current.x == targetX then
+                    break
+                end
+
+                if current.x < targetX then
+                    direction = turnTo(direction, 1)
+                else
+                    direction = turnTo(direction, 3)
+                end
+
+                local moved, moveError = moveForward()
 
                 if not moved then
                     error(
-                        "Mining stopped at " ..
-                        state.x .. "," ..
-                        state.y .. "," ..
-                        state.z ..
-                        ": " .. moveError
+                        "Failed moving X: " ..
+                        moveError
                     )
                 end
             end
 
-
             ------------------------------------------------
-            -- Next Z row
+            -- Finished this row
             ------------------------------------------------
 
-            if z < maxZ then
+            if row < (maxZ - minZ) then
 
-                if reverseZ then
-                    face(2)
+                local nextZ
+
+                if zForward then
+                    nextZ = currentZ + 1
                 else
-                    face(0)
+                    nextZ = currentZ - 1
                 end
 
-                local moved, moveError = forward()
+                ------------------------------------------------
+                -- Move to next Z row
+                ------------------------------------------------
+
+                if nextZ > currentZ then
+                    direction = turnTo(direction, 0)
+                else
+                    direction = turnTo(direction, 2)
+                end
+
+                local moved, moveError = moveForward()
 
                 if not moved then
                     error(
-                        "Could not move to next row: " ..
+                        "Failed moving to next row: " ..
                         moveError
                     )
                 end
 
-                z = z + 1
-                reverseZ = not reverseZ
-            else
-                break
+                currentZ = nextZ
             end
-
         end
 
-
         ----------------------------------------------------
-        -- Next Y level
+        -- Finished this Y layer
         ----------------------------------------------------
 
         if y < maxY then
 
-            ok, err = up()
+            print("Moving to Y = " .. (y + 1))
 
-            if not ok then
+            local moved, moveError = moveUp()
+
+            if not moved then
                 error(
-                    "Could not move to next layer: " ..
-                    err
+                    "Failed moving to next layer: " ..
+                    moveError
                 )
             end
-
         end
-
     end
-
-
-    --------------------------------------------------------
-    -- Finished
-    --------------------------------------------------------
 
     print("")
     print("================================")
     print("        MINING COMPLETE")
     print("================================")
-
-    print(
-        "Final position: " ..
-        state.x .. ", " ..
-        state.y .. ", " ..
-        state.z
-    )
-
-    return true
 end
 
 
