@@ -800,3 +800,5 @@ end
 --     {x = 100, y = 20, z = -50},
 --     {x = 110, y = 25, z = -40}
 -- )
+
+return {minearea = minearea}
