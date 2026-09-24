@@ -52,7 +52,10 @@ local function getRotation()
     end
 end
 
-local function goTo(target)
+local function goto(target)
+
+    local detour = nil
+    local detourSteps = 0
 
     while true do
 
@@ -68,30 +71,103 @@ local function goTo(target)
         end
 
         ------------------------------------------------
-        -- Y
+        -- DETOUR MODE
         ------------------------------------------------
 
-        if y < target.y then
+        if detour then
+
+            if detour == "EAST" then
+
+                if not turtle.detect() then
+                    turtle.forward()
+                    detourSteps = detourSteps + 1
+                else
+                    detour = nil
+                end
+
+            elseif detour == "WEST" then
+
+                if not turtle.detect() then
+                    turtle.forward()
+                    detourSteps = detourSteps + 1
+                else
+                    detour = nil
+                end
+
+            elseif detour == "NORTH" then
+
+                if not turtle.detect() then
+                    turtle.forward()
+                    detourSteps = detourSteps + 1
+                else
+                    detour = nil
+                end
+
+            elseif detour == "SOUTH" then
+
+                if not turtle.detect() then
+                    turtle.forward()
+                    detourSteps = detourSteps + 1
+                else
+                    detour = nil
+                end
+
+            elseif detour == "UP" then
+
+                if not turtle.detectUp() then
+                    turtle.up()
+                    detourSteps = detourSteps + 1
+                else
+                    detour = nil
+                end
+
+            elseif detour == "DOWN" then
+
+                if not turtle.detectDown() then
+                    turtle.down()
+                    detourSteps = detourSteps + 1
+                else
+                    detour = nil
+                end
+            end
+
+            -- After moving around the obstacle, check
+            -- whether we can now resume direct movement.
+            if detourSteps >= 1 then
+                detour = nil
+                detourSteps = 0
+            end
+
+        ------------------------------------------------
+        -- Y MOVEMENT
+        ------------------------------------------------
+
+        elseif y < target.y then
 
             if not turtle.detectUp() then
                 if not turtle.up() then
                     return false, "Cannot move up"
                 end
             else
-                -- Something above, try going around it
+                -- Block above: move horizontally as detour
                 if Rotation == "NORTH" then
                     turtle.turnRight()
                     Rotation = "EAST"
+
                 elseif Rotation == "EAST" then
                     turtle.turnRight()
                     Rotation = "SOUTH"
+
                 elseif Rotation == "SOUTH" then
                     turtle.turnRight()
                     Rotation = "WEST"
+
                 elseif Rotation == "WEST" then
                     turtle.turnRight()
                     Rotation = "NORTH"
                 end
+
+                detour = Rotation
             end
 
         elseif y > target.y then
@@ -101,142 +177,165 @@ local function goTo(target)
                     return false, "Cannot move down"
                 end
             else
-                -- Something below, try going around it
+                -- Block below: move horizontally as detour
                 if Rotation == "NORTH" then
                     turtle.turnRight()
                     Rotation = "EAST"
+
                 elseif Rotation == "EAST" then
                     turtle.turnRight()
                     Rotation = "SOUTH"
+
                 elseif Rotation == "SOUTH" then
                     turtle.turnRight()
                     Rotation = "WEST"
+
                 elseif Rotation == "WEST" then
                     turtle.turnRight()
                     Rotation = "NORTH"
                 end
+
+                detour = Rotation
             end
 
         ------------------------------------------------
-        -- X
+        -- X MOVEMENT
         ------------------------------------------------
 
         elseif x < target.x then
 
             -- Need EAST
-            if Rotation ~= "EAST" then
+            if Rotation == "EAST" then
 
-                if Rotation == "NORTH" then
-                    turtle.turnRight()
+                if turtle.detect() then
 
-                elseif Rotation == "SOUTH" then
-                    turtle.turnLeft()
+                    -- EAST blocked → SOUTH
+                    turtle.turnRight()
+                    Rotation = "SOUTH"
+                    detour = "SOUTH"
 
-                elseif Rotation == "WEST" then
-                    turtle.turnRight()
-                    turtle.turnRight()
+                else
+                    turtle.forward()
                 end
 
+            elseif Rotation == "WEST" then
+
+                turtle.turnLeft()
+                turtle.turnLeft()
                 Rotation = "EAST"
 
-            elseif turtle.detect() then
-                -- Blocked: turn and try another direction
-                turtle.turnRight()
-                Rotation = "SOUTH"
+            elseif Rotation == "NORTH" then
 
-            else
-                if not turtle.forward() then
-                    return false, "Cannot move forward"
-                end
+                turtle.turnRight()
+                Rotation = "EAST"
+
+            elseif Rotation == "SOUTH" then
+
+                turtle.turnLeft()
+                Rotation = "EAST"
             end
 
         elseif x > target.x then
 
             -- Need WEST
-            if Rotation ~= "WEST" then
+            if Rotation == "WEST" then
 
-                if Rotation == "NORTH" then
-                    turtle.turnLeft()
+                if turtle.detect() then
 
-                elseif Rotation == "SOUTH" then
+                    -- WEST blocked → NORTH
                     turtle.turnRight()
+                    Rotation = "NORTH"
+                    detour = "NORTH"
 
-                elseif Rotation == "EAST" then
-                    turtle.turnRight()
-                    turtle.turnRight()
+                else
+                    turtle.forward()
                 end
 
+            elseif Rotation == "EAST" then
+
+                turtle.turnRight()
+                turtle.turnRight()
                 Rotation = "WEST"
 
-            elseif turtle.detect() then
-                -- Blocked: turn and try another direction
-                turtle.turnRight()
-                Rotation = "NORTH"
+            elseif Rotation == "NORTH" then
 
-            else
-                if not turtle.forward() then
-                    return false, "Cannot move forward"
-                end
+                turtle.turnLeft()
+                Rotation = "WEST"
+
+            elseif Rotation == "SOUTH" then
+
+                turtle.turnRight()
+                Rotation = "WEST"
             end
 
         ------------------------------------------------
-        -- Z
+        -- Z MOVEMENT
         ------------------------------------------------
 
         elseif z < target.z then
 
             -- Need SOUTH
-            if Rotation ~= "SOUTH" then
+            if Rotation == "SOUTH" then
 
-                if Rotation == "NORTH" then
-                    turtle.turnRight()
-                    turtle.turnRight()
+                if turtle.detect() then
 
-                elseif Rotation == "EAST" then
+                    -- SOUTH blocked → WEST
                     turtle.turnRight()
+                    Rotation = "WEST"
+                    detour = "WEST"
 
-                elseif Rotation == "WEST" then
-                    turtle.turnLeft()
+                else
+                    turtle.forward()
                 end
 
+            elseif Rotation == "NORTH" then
+
+                turtle.turnRight()
+                turtle.turnRight()
                 Rotation = "SOUTH"
 
-            elseif turtle.detect() then
-                turtle.turnRight()
-                Rotation = "WEST"
+            elseif Rotation == "EAST" then
 
-            else
-                if not turtle.forward() then
-                    return false, "Cannot move forward"
-                end
+                turtle.turnRight()
+                Rotation = "SOUTH"
+
+            elseif Rotation == "WEST" then
+
+                turtle.turnLeft()
+                Rotation = "SOUTH"
             end
 
         elseif z > target.z then
 
             -- Need NORTH
-            if Rotation ~= "NORTH" then
+            if Rotation == "NORTH" then
 
-                if Rotation == "SOUTH" then
-                    turtle.turnRight()
-                    turtle.turnRight()
+                if turtle.detect() then
 
-                elseif Rotation == "EAST" then
-                    turtle.turnLeft()
-
-                elseif Rotation == "WEST" then
+                    -- NORTH blocked → EAST
                     turtle.turnRight()
+                    Rotation = "EAST"
+                    detour = "EAST"
+
+                else
+                    turtle.forward()
                 end
 
+            elseif Rotation == "SOUTH" then
+
+                turtle.turnRight()
+                turtle.turnRight()
                 Rotation = "NORTH"
 
-            elseif turtle.detect() then
-                turtle.turnRight()
-                Rotation = "EAST"
+            elseif Rotation == "EAST" then
 
-            else
-                if not turtle.forward() then
-                    return false, "Cannot move forward"
-                end
+                turtle.turnLeft()
+                Rotation = "NORTH"
+
+            elseif Rotation == "WEST" then
+
+                turtle.turnRight()
+                Rotation = "NORTH"
             end
         end
 
