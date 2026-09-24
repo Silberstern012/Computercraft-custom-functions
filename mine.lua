@@ -54,7 +54,7 @@ end
 
 local function goto(goPos)
 
-    local x, y, z = goPos
+    local x, y, z = goPos.x, goPos.y, goPos.z
 
     while true do
 
@@ -138,10 +138,15 @@ local function goto(goPos)
                 Rotation = "NORTH"
             end
 
-        elseif gy < y then
+        elseif gy < y and y >-1 then
             turtle.down()
-        elseif gy > y then
+        elseif gy > y and y >-1 then
             turtle.up()
+        elseif gy < y and y <0 then
+            turtle.up()
+        elseif gy > y and y <0 then
+            turtle.down()
+        
         end
     end
 end
@@ -150,5 +155,5 @@ getRotation()
 print(Rotation)
 
 sleep(2)
-target = -3018,-5,-9688
+target = {x=-3018,y=-5,z=-9688}
 goto(target)
