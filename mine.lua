@@ -52,102 +52,200 @@ local function getRotation()
     end
 end
 
-local function goto(goPos)
-
-    local x, y, z = goPos
+local function goTo(target)
 
     while true do
 
-        local gx, gy, gz = gps.locate()
+        local x, y, z = gps.locate()
 
-        if not gx then
+        if not x then
             return false, "GPS unavailable"
         end
 
-        ------------------------------------------------
-        -- We reached the destination
-        ------------------------------------------------
-
-        if gx == x and gy == y and gz == z then
+        -- Target reached
+        if x == target.x and y == target.y and z == target.z then
             return true
         end
 
+        ------------------------------------------------
+        -- Y
+        ------------------------------------------------
+
+        if y < target.y then
+
+            if not turtle.detectUp() then
+                if not turtle.up() then
+                    return false, "Cannot move up"
+                end
+            else
+                -- Something above, try going around it
+                if Rotation == "NORTH" then
+                    turtle.turnRight()
+                    Rotation = "EAST"
+                elseif Rotation == "EAST" then
+                    turtle.turnRight()
+                    Rotation = "SOUTH"
+                elseif Rotation == "SOUTH" then
+                    turtle.turnRight()
+                    Rotation = "WEST"
+                elseif Rotation == "WEST" then
+                    turtle.turnRight()
+                    Rotation = "NORTH"
+                end
+            end
+
+        elseif y > target.y then
+
+            if not turtle.detectDown() then
+                if not turtle.down() then
+                    return false, "Cannot move down"
+                end
+            else
+                -- Something below, try going around it
+                if Rotation == "NORTH" then
+                    turtle.turnRight()
+                    Rotation = "EAST"
+                elseif Rotation == "EAST" then
+                    turtle.turnRight()
+                    Rotation = "SOUTH"
+                elseif Rotation == "SOUTH" then
+                    turtle.turnRight()
+                    Rotation = "WEST"
+                elseif Rotation == "WEST" then
+                    turtle.turnRight()
+                    Rotation = "NORTH"
+                end
+            end
 
         ------------------------------------------------
         -- X
         ------------------------------------------------
 
-        if gx < x then
+        elseif x < target.x then
 
-            if Rotation == "EAST" then
-                turtle.forward()
-            elseif Rotation == "WEST" then
-                turtle.turnLeft()
-                turtle.turnLeft()
-                Rotation = "EAST"
-            elseif Rotation == "NORTH" then
-                turtle.turnRight()
-                Rotation = "EAST"
-            elseif Rotation == "SOUTH" then
-                turtle.turnLeft()
-                Rotation = "EAST"
-            end
+            -- Need EAST
+            if Rotation ~= "EAST" then
 
-        elseif gx > x then
-            if Rotation == "WEST" then
-                turtle.forward()
-            elseif Rotation == "EAST" then
-                turtle.turnLeft()
-                turtle.turnLeft()
-                Rotation = "WEST"
-            elseif Rotation == "NORTH" then
-                turtle.turnLeft()
-                Rotation = "WEST"
-            elseif Rotation == "SOUTH" then
-                turtle.turnRight()
-                Rotation = "WEST"
-            end
+                if Rotation == "NORTH" then
+                    turtle.turnRight()
 
-        elseif gz < z then
-            if Rotation == "SOUTH" then
-                turtle.forward()
-            elseif Rotation == "NORTH" then
-                turtle.turnLeft()
-                turtle.turnLeft()
-                Rotation = "SOUTH"
-            elseif Rotation == "EAST" then
+                elseif Rotation == "SOUTH" then
+                    turtle.turnLeft()
+
+                elseif Rotation == "WEST" then
+                    turtle.turnRight()
+                    turtle.turnRight()
+                end
+
+                Rotation = "EAST"
+
+            elseif turtle.detect() then
+                -- Blocked: turn and try another direction
                 turtle.turnRight()
                 Rotation = "SOUTH"
-            elseif Rotation == "WEST" then
-                turtle.turnLeft()
-                Rotation = "SOUTH"
+
+            else
+                if not turtle.forward() then
+                    return false, "Cannot move forward"
+                end
             end
 
-        elseif gz > z then
-            if Rotation == "NORTH" then
-                turtle.forward()
-            elseif Rotation == "SOUTH" then
-                turtle.turnLeft()
-                turtle.turnLeft()
-                Rotation = "NORTH"
-            elseif Rotation == "EAST" then
-                turtle.turnLeft()
-                Rotation = "NORTH"
-            elseif Rotation == "WEST" then
+        elseif x > target.x then
+
+            -- Need WEST
+            if Rotation ~= "WEST" then
+
+                if Rotation == "NORTH" then
+                    turtle.turnLeft()
+
+                elseif Rotation == "SOUTH" then
+                    turtle.turnRight()
+
+                elseif Rotation == "EAST" then
+                    turtle.turnRight()
+                    turtle.turnRight()
+                end
+
+                Rotation = "WEST"
+
+            elseif turtle.detect() then
+                -- Blocked: turn and try another direction
                 turtle.turnRight()
                 Rotation = "NORTH"
+
+            else
+                if not turtle.forward() then
+                    return false, "Cannot move forward"
+                end
             end
 
-        elseif gy < y then
-            turtle.down()
-        elseif gy > y then
-            turtle.up()
+        ------------------------------------------------
+        -- Z
+        ------------------------------------------------
+
+        elseif z < target.z then
+
+            -- Need SOUTH
+            if Rotation ~= "SOUTH" then
+
+                if Rotation == "NORTH" then
+                    turtle.turnRight()
+                    turtle.turnRight()
+
+                elseif Rotation == "EAST" then
+                    turtle.turnRight()
+
+                elseif Rotation == "WEST" then
+                    turtle.turnLeft()
+                end
+
+                Rotation = "SOUTH"
+
+            elseif turtle.detect() then
+                turtle.turnRight()
+                Rotation = "WEST"
+
+            else
+                if not turtle.forward() then
+                    return false, "Cannot move forward"
+                end
+            end
+
+        elseif z > target.z then
+
+            -- Need NORTH
+            if Rotation ~= "NORTH" then
+
+                if Rotation == "SOUTH" then
+                    turtle.turnRight()
+                    turtle.turnRight()
+
+                elseif Rotation == "EAST" then
+                    turtle.turnLeft()
+
+                elseif Rotation == "WEST" then
+                    turtle.turnRight()
+                end
+
+                Rotation = "NORTH"
+
+            elseif turtle.detect() then
+                turtle.turnRight()
+                Rotation = "EAST"
+
+            else
+                if not turtle.forward() then
+                    return false, "Cannot move forward"
+                end
+            end
         end
+
+        sleep(0.05)
     end
 end
-
 getRotation()
 print(Rotation)
+
 
 target = {x=-3018,y=-5,z=-9688}
 goto(target)
