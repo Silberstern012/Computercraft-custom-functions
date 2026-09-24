@@ -76,7 +76,6 @@ local function goto(goPos)
         ------------------------------------------------
         -- X
         ------------------------------------------------
-        print(gx.." "..x)
         if gx < x then
 
             if Rotation == "EAST" then
