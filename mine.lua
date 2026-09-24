@@ -150,5 +150,5 @@ getRotation()
 print(Rotation)
 
 sleep(2)
-target = {-3018,-5,-9688}
+target = -3018,-5,-9688
 goto(target)
