@@ -1,350 +1,257 @@
-local Rotation = ""
+-- Minearea - CC:Tweaked Turtle Mining Script
+--
+-- Provides minearea(pos1, pos2) to mine a rectangular volume.
+--
+-- Usage as program:
+--   minearea <x1> <y1> <z1> <x2> <y2> <z2>
+-- Usage as API:
+--   local lib = require("minearea")
+--   lib.minearea({x=0,y=0,z=0}, {x=10,y=5,z=10})
+--
+-- Coordinates are relative to the turtle's starting position and facing:
+--   x = forward(+) / backward(-)
+--   y = up(+) / down(-)
+--   z = right(+) / left(-)
 
+--==================================================================
+-- State
+--==================================================================
 
-local function getRotation()
-    x, y, z = gps.locate()
-    pos1 = {x, y, z}
+local pos = { x = 0, y = 0, z = 0 }
+local facing = 0  -- 0=+x, 1=+z, 2=-x, 3=-z
+
+local startPos  = { x = 0, y = 0, z = 0 }
+local startFace = 0
+
+--==================================================================
+-- Direction helpers
+--==================================================================
+
+local dirVec = {
+  [0] = { x =  1, z =  0 }, -- forward  (+x)
+  [1] = { x =  0, z =  1 }, -- right    (+z)
+  [2] = { x = -1, z =  0 }, -- backward (-x)
+  [3] = { x =  0, z = -1 }, -- left     (-z)
+}
+
+local function turnTo(target)
+  local diff = (target - facing) % 4
+  if diff == 0 then
+    return
+  elseif diff == 1 then
+    turtle.turnRight()
+  elseif diff == 2 then
+    turtle.turnRight()
+    turtle.turnRight()
+  else
+    turtle.turnLeft()
+  end
+  facing = target
+end
+
+--==================================================================
+-- Fuel
+--==================================================================
+
+local function needsFuel()
+  local level = turtle.getFuelLevel()
+  return type(level) == "number" and level == 0
+end
+
+local function refuel()
+  for i = 1, 16 do
+    turtle.select(i)
+    if turtle.refuel(0) then
+      turtle.refuel()
+    end
+  end
+  turtle.select(1)
+end
+
+--==================================================================
+-- Movement (digs through obstacles, handles falling gravel)
+--==================================================================
+
+local function moveForward()
+  local retries = 0
+  while not turtle.forward() do
     if turtle.detect() then
-        turtle.back()
-        x2, y2, z2 = gps.locate()
-        pos2 = {x2, y2, z2}
-        turtle.forward()
-        
-
-        for num, pos in pairs(pos1) do
-            if pos ~= pos2[num] then
-                
-                if num == 1 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "WEST"
-                elseif num == 1 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "EAST"
-                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "NORTH"
-                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "SOUTH"
-                
-                elseif num == 1 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "WEST"
-                elseif num == 1 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "EAST"
-                elseif num == 3 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "NORTH"
-                elseif num == 3 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "SOUTH"
-                end
-            end  
-        end
-
+      turtle.dig()
+    elseif needsFuel() then
+      refuel()
+      if needsFuel() then error("Out of fuel!") end
+    elseif retries < 20 then
+      sleep(0.5)
+      retries = retries + 1
     else
-        turtle.forward()
-        x2, y2, z2 = gps.locate()
-        pos2 = {x2, y2, z2}
-        turtle.back()
-    
-
-        for num, pos in pairs(pos1) do
-            if pos ~= pos2[num] then
-                
-                if num == 1 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "WEST"
-                elseif num == 1 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "EAST"
-                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "NORTH"
-                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "SOUTH"
-                
-                elseif num == 1 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "WEST"
-                elseif num == 1 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "EAST"
-                elseif num == 3 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "NORTH"
-                elseif num == 3 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "SOUTH"
-                end
-            end  
-        end
+      error("Path blocked by entity — aborting after 20 retries")
     end
+  end
+  local d = dirVec[facing]
+  pos.x = pos.x + d.x
+  pos.z = pos.z + d.z
 end
 
-local function goto(target)
-
-    local detour = nil
-    local detourSteps = 0
-
-    while true do
-
-        local x, y, z = gps.locate()
-
-        if not x then
-            return false, "GPS unavailable"
-        end
-
-        -- Target reached
-        if x == target.x and y == target.y and z == target.z then
-            return true
-        end
-
-        ------------------------------------------------
-        -- DETOUR MODE
-        ------------------------------------------------
-
-        if detour then
-
-            if detour == "EAST" then
-
-                if not turtle.detect() then
-                    turtle.forward()
-                    detourSteps = detourSteps + 1
-                else
-                    detour = nil
-                end
-
-            elseif detour == "WEST" then
-
-                if not turtle.detect() then
-                    turtle.forward()
-                    detourSteps = detourSteps + 1
-                else
-                    detour = nil
-                end
-
-            elseif detour == "NORTH" then
-
-                if not turtle.detect() then
-                    turtle.forward()
-                    detourSteps = detourSteps + 1
-                else
-                    detour = nil
-                end
-
-            elseif detour == "SOUTH" then
-
-                if not turtle.detect() then
-                    turtle.forward()
-                    detourSteps = detourSteps + 1
-                else
-                    detour = nil
-                end
-
-            elseif detour == "UP" then
-
-                if not turtle.detectUp() then
-                    turtle.up()
-                    detourSteps = detourSteps + 1
-                else
-                    detour = nil
-                end
-
-            elseif detour == "DOWN" then
-
-                if not turtle.detectDown() then
-                    turtle.down()
-                    detourSteps = detourSteps + 1
-                else
-                    detour = nil
-                end
-            end
-
-            -- After moving around the obstacle, check
-            -- whether we can now resume direct movement.
-            if detourSteps >= 1 then
-                detour = nil
-                detourSteps = 0
-            end
-
-        ------------------------------------------------
-        -- Y MOVEMENT
-        ------------------------------------------------
-
-        elseif y < target.y then
-
-            if not turtle.detectUp() then
-                if not turtle.up() then
-                    return false, "Cannot move up"
-                end
-            else
-                -- Block above: move horizontally as detour
-                if Rotation == "NORTH" then
-                    turtle.turnRight()
-                    Rotation = "EAST"
-
-                elseif Rotation == "EAST" then
-                    turtle.turnRight()
-                    Rotation = "SOUTH"
-
-                elseif Rotation == "SOUTH" then
-                    turtle.turnRight()
-                    Rotation = "WEST"
-
-                elseif Rotation == "WEST" then
-                    turtle.turnRight()
-                    Rotation = "NORTH"
-                end
-
-                detour = Rotation
-            end
-
-        elseif y > target.y then
-
-            if not turtle.detectDown() then
-                if not turtle.down() then
-                    return false, "Cannot move down"
-                end
-            else
-                -- Block below: move horizontally as detour
-                if Rotation == "NORTH" then
-                    turtle.turnRight()
-                    Rotation = "EAST"
-
-                elseif Rotation == "EAST" then
-                    turtle.turnRight()
-                    Rotation = "SOUTH"
-
-                elseif Rotation == "SOUTH" then
-                    turtle.turnRight()
-                    Rotation = "WEST"
-
-                elseif Rotation == "WEST" then
-                    turtle.turnRight()
-                    Rotation = "NORTH"
-                end
-
-                detour = Rotation
-            end
-
-        ------------------------------------------------
-        -- X MOVEMENT
-        ------------------------------------------------
-
-        elseif x < target.x then
-
-            -- Need EAST
-            if Rotation == "EAST" then
-
-                if turtle.detect() then
-
-                    -- EAST blocked → SOUTH
-                    turtle.turnRight()
-                    Rotation = "SOUTH"
-                    detour = "SOUTH"
-
-                else
-                    turtle.forward()
-                end
-
-            elseif Rotation == "WEST" then
-
-                turtle.turnLeft()
-                turtle.turnLeft()
-                Rotation = "EAST"
-
-            elseif Rotation == "NORTH" then
-
-                turtle.turnRight()
-                Rotation = "EAST"
-
-            elseif Rotation == "SOUTH" then
-
-                turtle.turnLeft()
-                Rotation = "EAST"
-            end
-
-        elseif x > target.x then
-
-            -- Need WEST
-            if Rotation == "WEST" then
-
-                if turtle.detect() then
-
-                    -- WEST blocked → NORTH
-                    turtle.turnRight()
-                    Rotation = "NORTH"
-                    detour = "NORTH"
-
-                else
-                    turtle.forward()
-                end
-
-            elseif Rotation == "EAST" then
-
-                turtle.turnRight()
-                turtle.turnRight()
-                Rotation = "WEST"
-
-            elseif Rotation == "NORTH" then
-
-                turtle.turnLeft()
-                Rotation = "WEST"
-
-            elseif Rotation == "SOUTH" then
-
-                turtle.turnRight()
-                Rotation = "WEST"
-            end
-
-        ------------------------------------------------
-        -- Z MOVEMENT
-        ------------------------------------------------
-
-        elseif z < target.z then
-
-            -- Need SOUTH
-            if Rotation == "SOUTH" then
-
-                if turtle.detect() then
-
-                    -- SOUTH blocked → WEST
-                    turtle.turnRight()
-                    Rotation = "WEST"
-                    detour = "WEST"
-
-                else
-                    turtle.forward()
-                end
-
-            elseif Rotation == "NORTH" then
-
-                turtle.turnRight()
-                turtle.turnRight()
-                Rotation = "SOUTH"
-
-            elseif Rotation == "EAST" then
-
-                turtle.turnRight()
-                Rotation = "SOUTH"
-
-            elseif Rotation == "WEST" then
-
-                turtle.turnLeft()
-                Rotation = "SOUTH"
-            end
-
-        elseif z > target.z then
-
-            -- Need NORTH
-            if Rotation == "NORTH" then
-
-                if turtle.detect() then
-
-                    -- NORTH blocked → EAST
-                    turtle.turnRight()
-                    Rotation = "EAST"
-                    detour = "EAST"
-
-                else
-                    turtle.forward()
-                end
-
-            elseif Rotation == "SOUTH" then
-
-                turtle.turnRight()
-                turtle.turnRight()
-                Rotation = "NORTH"
-
-            elseif Rotation == "EAST" then
-
-                turtle.turnLeft()
-                Rotation = "NORTH"
-
-            elseif Rotation == "WEST" then
-
-                turtle.turnRight()
-                Rotation = "NORTH"
-            end
-        end
-
-        sleep(0.05)
+local function moveUp()
+  local retries = 0
+  while not turtle.up() do
+    if turtle.detectUp() then
+      turtle.digUp()
+    elseif needsFuel() then
+      refuel()
+      if needsFuel() then error("Out of fuel!") end
+    elseif retries < 20 then
+      sleep(0.5)
+      retries = retries + 1
+    else
+      error("Blocked above — aborting after 20 retries")
     end
+  end
+  pos.y = pos.y + 1
 end
-getRotation()
-print(Rotation)
 
+local function moveDown()
+  local retries = 0
+  while not turtle.down() do
+    if turtle.detectDown() then
+      turtle.digDown()
+    elseif needsFuel() then
+      refuel()
+      if needsFuel() then error("Out of fuel!") end
+    elseif retries < 20 then
+      sleep(0.5)
+      retries = retries + 1
+    else
+      error("Blocked below — aborting after 20 retries")
+    end
+  end
+  pos.y = pos.y - 1
+end
 
-target = {x=-3018,y=-5,z=-9688}
-goto(target)
+--==================================================================
+-- Navigation: go to an arbitrary relative position
+--==================================================================
+
+local function gotoPos(target)
+  while pos.y < target.y do moveUp()   end
+  while pos.y > target.y do moveDown() end
+
+  if pos.x < target.x then
+    turnTo(0)
+    while pos.x < target.x do moveForward() end
+  elseif pos.x > target.x then
+    turnTo(2)
+    while pos.x > target.x do moveForward() end
+  end
+
+  if pos.z < target.z then
+    turnTo(1)
+    while pos.z < target.z do moveForward() end
+  elseif pos.z > target.z then
+    turnTo(3)
+    while pos.z > target.z do moveForward() end
+  end
+end
+
+--==================================================================
+-- Inventory
+--==================================================================
+
+local function inventoryFull()
+  for i = 1, 16 do
+    if turtle.getItemCount(i) == 0 then return false end
+  end
+  return true
+end
+
+--==================================================================
+-- Core: mine a rectangular volume
+--==================================================================
+
+local function minearea(pos1, pos2)
+  local minX = math.min(pos1.x, pos2.x)
+  local maxX = math.max(pos1.x, pos2.x)
+  local minY = math.min(pos1.y, pos2.y)
+  local maxY = math.max(pos1.y, pos2.y)
+  local minZ = math.min(pos1.z, pos2.z)
+  local maxZ = math.max(pos1.z, pos2.z)
+
+  local dims = {
+    x = maxX - minX + 1,
+    y = maxY - minY + 1,
+    z = maxZ - minZ + 1,
+  }
+  local blocks = dims.x * dims.y * dims.z
+
+  -- Save origin for the return trip
+  startPos  = { x = pos.x, y = pos.y, z = pos.z }
+  startFace = facing
+
+  -- Fuel check
+  refuel()
+  local level = turtle.getFuelLevel()
+  if type(level) == "number" then
+    local travel  = math.abs(minX) + math.abs(minY) + math.abs(minZ)
+    local estFuel = travel + blocks + travel -- to corner + mine + return
+    if level < estFuel then
+      print(("WARNING: fuel %d may be low (est. %d needed)."):format(level, estFuel))
+    end
+  end
+
+  print(("Mining %d blocks (%dx%dx%d)...")
+        :format(blocks, dims.x, dims.y, dims.z))
+
+  -- Navigate to the bottom-front-left corner
+  gotoPos({ x = minX, y = minY, z = minZ })
+
+  -- Sweep layer by layer (y), row by row (x), zigzag along z
+  for y = minY, maxY do
+    for x = minX, maxX do
+      local rowIdx = x - minX
+
+      if rowIdx % 2 == 0 then
+        turnTo(1) -- face +z
+        while pos.z < maxZ do moveForward() end
+      else
+        turnTo(3) -- face -z
+        while pos.z > minZ do moveForward() end
+      end
+
+      if inventoryFull() then
+        print("WARNING: inventory full — mined blocks will be lost")
+      end
+
+      -- Step to the next x row (if not the last)
+      if x < maxX then
+        turnTo(0)
+        moveForward()
+      end
+    end
+
+    -- Ascend to the next layer (if not the last)
+    if y < maxY then
+      moveUp()
+    end
+  end
+
+  -- Return to the starting position and orientation
+  print("Mining complete. Returning to start...")
+  gotoPos(startPos)
+  turnTo(startFace)
+  print("Done.")
+end
+
+--==================================================================
+-- Direct execution  (minearea x1 y1 z1 x2 y2 z2)
+--==================================================================
+
+local args = { ... }
+
+if #args >= 6 and tonumber(args[1]) then
+  minearea(
+    { x = tonumber(args[1]), y = tonumber(args[2]), z = tonumber(args[3]) },
+    { x = tonumber(args[4]), y = tonumber(args[5]), z = tonumber(args[6]) }
+  )
+end
+
+return { minearea = minearea }
