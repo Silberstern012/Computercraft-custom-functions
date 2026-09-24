@@ -50,11 +50,100 @@ local function getRotation()
             end  
         end
     end
-
 end
 
-local function goto(pos)
+local function goto(goPos)
 
+    local x, y, z = goPos.x, goPos.y, goPos.z
+
+    while true do
+
+        local gx, gy, gz = gps.locate()
+
+        if not gx then
+            return false, "GPS unavailable"
+        end
+
+        ------------------------------------------------
+        -- We reached the destination
+        ------------------------------------------------
+
+        if gx == x and gy == y and gz == z then
+            return true
+        end
+
+
+        ------------------------------------------------
+        -- X
+        ------------------------------------------------
+
+        if gx < x then
+
+            if Rotation == "EAST" then
+                turtle.forward()
+            elseif Rotation == "WEST" then
+                turtle.turnLeft()
+                turtle.turnLeft()
+                Rotation = "EAST"
+            elseif Rotation == "NORTH" then
+                turtle.turnRight()
+                Rotation = "EAST"
+            elseif Rotation == "SOUTH" then
+                turtle.turnLeft()
+                Rotation = "EAST"
+            end
+
+        elseif gx > x then
+            if Rotation == "WEST" then
+                turtle.forward()
+            elseif Rotation == "EAST" then
+                turtle.turnLeft()
+                turtle.turnLeft()
+                Rotation = "WEST"
+            elseif Rotation == "NORTH" then
+                turtle.turnLeft()
+                Rotation = "WEST"
+            elseif Rotation == "SOUTH" then
+                turtle.turnRight()
+                Rotation = "WEST"
+            end
+
+        elseif gz < z then
+            if Rotation == "SOUTH" then
+                turtle.forward()
+            elseif Rotation == "NORTH" then
+                turtle.turnLeft()
+                turtle.turnLeft()
+                Rotation = "SOUTH"
+            elseif Rotation == "EAST" then
+                turtle.turnRight()
+                Rotation = "SOUTH"
+            elseif Rotation == "WEST" then
+                turtle.turnLeft()
+                Rotation = "SOUTH"
+            end
+
+        elseif gz > z then
+            if Rotation == "NORTH" then
+                turtle.forward()
+            elseif Rotation == "SOUTH" then
+                turtle.turnLeft()
+                turtle.turnLeft()
+                Rotation = "NORTH"
+            elseif Rotation == "EAST" then
+                turtle.turnLeft()
+                Rotation = "NORTH"
+            elseif Rotation == "WEST" then
+                turtle.turnRight()
+                Rotation = "NORTH"
+            end
+
+        elseif gy < y then
+            turtle.down()
+        elseif gy > y then
+            turtle.up()
+        end
+    end
 end
 
 getRotation()
