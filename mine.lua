@@ -54,7 +54,7 @@ end
 
 local function goto(goPos)
 
-    local x, y, z = goPos.x, goPos.y, goPos.z
+    local x, y, z = goPos
 
     while true do
 
