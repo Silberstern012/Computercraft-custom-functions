@@ -14,15 +14,15 @@ local function getRotation()
         for num, pos in pairs(pos1) do
             if pos ~= pos2[num] then
                 
-                if num == 1 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "EAST"
-                elseif num == 1 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "WEST"
-                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "SOUTH"
-                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "NORTH"
+                if num == 1 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "WEST"
+                elseif num == 1 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "EAST"
+                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "NORTH"
+                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "SOUTH"
                 
-                elseif num == 1 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "EAST"
-                elseif num == 1 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "WEST"
-                elseif num == 3 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "SOUTH"
-                elseif num == 3 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "NORTH"
+                elseif num == 1 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "WEST"
+                elseif num == 1 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "EAST"
+                elseif num == 3 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "NORTH"
+                elseif num == 3 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "SOUTH"
                 end
             end  
         end
@@ -37,15 +37,15 @@ local function getRotation()
         for num, pos in pairs(pos1) do
             if pos ~= pos2[num] then
                 
-                if num == 1 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "EAST"
-                elseif num == 1 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "WEST"
-                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "SOUTH"
-                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "NORTH"
+                if num == 1 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "WEST"
+                elseif num == 1 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "EAST"
+                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos > pos2[num] then Rotation = "NORTH"
+                elseif num == 3 and pos >-1 and pos2[num] >-1 and pos < pos2[num] then Rotation = "SOUTH"
                 
-                elseif num == 1 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "EAST"
-                elseif num == 1 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "WEST"
-                elseif num == 3 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "SOUTH"
-                elseif num == 3 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "NORTH"
+                elseif num == 1 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "WEST"
+                elseif num == 1 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "EAST"
+                elseif num == 3 and pos <0 and pos2[num] <0 and pos > pos2[num] then Rotation = "NORTH"
+                elseif num == 3 and pos <0 and pos2[num] <0 and pos < pos2[num] then Rotation = "SOUTH"
                 end
             end  
         end
