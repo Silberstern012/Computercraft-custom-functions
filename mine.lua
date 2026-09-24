@@ -1,24 +1,54 @@
+local Rotation = ""
+
+
 local function getRotation()
-    startPos.x,startPos.y,startPos.z = gps.locate()
+    x, y, z = gps.locate()
+    pos1 = {x, y, z}
     if turtle.detect() then
         turtle.back()
-        Pos2 = gps.locate()
+        x2, y2, z2 = gps.locate()
+        pos2 = {x2, y2, z2}
         turtle.forward()
         
-        neg_1 = {}
-        print(startPos)
-        for num, pos in pairs(startPos) do
-            if number<0 then neg_1[num] = true
-            else neg_1[num] = false end  
+
+        for num, pos in pairs(pos1) do
+            if pos ~= pos2[num] then
+                
+                if num = 1 and pos >-1 and pos2[num] >-1 and pos < pos2 then Rotation = "EAST"
+                elseif num = 1 and pos >-1 and pos2[num] >-1 and pos > pos2 then Rotation = "WEST"
+                elseif num = 3 and pos >-1 and pos2[num] >-1 and pos < pos2 then Rotation = "SOUTH"
+                elseif num = 3 and pos >-1 and pos2[num] >-1 and pos > pos2 then Rotation = "NORTH"
+                
+                elseif num = 1 and pos <0 and pos2[num] <0 and pos < pos2 then Rotation = "EAST"
+                elseif num = 1 and pos <0 and pos2[num] <0 and pos > pos2 then Rotation = "WEST"
+                elseif num = 3 and pos <0 and pos2[num] <0 and pos < pos2 then Rotation = "SOUTH"
+                elseif num = 3 and pos <0 and pos2[num] <0 and pos > pos2 then Rotation = "NORTH"
+                end
+            end  
         end
 
     else
         turtle.forward()
-        Pos2 = gps.locate()
+        x2, y2, z2 = gps.locate()
+        pos2 = {x2, y2, z2}
         turtle.back()
     
-    
-    
+
+        for num, pos in pairs(pos1) do
+            if pos ~= pos2[num] then
+                
+                if num = 1 and pos >-1 and pos2[num] >-1 and pos > pos2 then Rotation = "EAST"
+                elseif num = 1 and pos >-1 and pos2[num] >-1 and pos < pos2 then Rotation = "WEST"
+                elseif num = 3 and pos >-1 and pos2[num] >-1 and pos > pos2 then Rotation = "SOUTH"
+                elseif num = 3 and pos >-1 and pos2[num] >-1 and pos < pos2 then Rotation = "NORTH"
+                
+                elseif num = 1 and pos <0 and pos2[num] <0 and pos > pos2 then Rotation = "EAST"
+                elseif num = 1 and pos <0 and pos2[num] <0 and pos < pos2 then Rotation = "WEST"
+                elseif num = 3 and pos <0 and pos2[num] <0 and pos > pos2 then Rotation = "SOUTH"
+                elseif num = 3 and pos <0 and pos2[num] <0 and pos < pos2 then Rotation = "NORTH"
+                end
+            end  
+        end
     end
 
 end
@@ -26,3 +56,6 @@ end
 local function goto(pos)
 
 end
+
+getRotation()
+print(Rotation)
