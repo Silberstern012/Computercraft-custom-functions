@@ -40,6 +40,7 @@ function main()
         end
         rpd = f.getPlayerData()
         if rpd then
+            status, err = pcall(function()
             playerData = textutils.unserialiseJSON(rpd)
             for pamt, player in ipairs(playerData.players) do
                 for famt, floorypos in pairs(floory) do
@@ -51,7 +52,9 @@ function main()
                     end
                 end
             end
+            end)
         end
+        if err then print(err) print(rpd) end
         os.sleep(1)
     end
 end
