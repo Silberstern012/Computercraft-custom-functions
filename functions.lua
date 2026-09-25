@@ -920,6 +920,16 @@ local function numberSpacing(inp, spacer)
     return out
 end
 
+local function isInArea(px, py, pz, x1, y1, z1, x2, y2, z2)
+    local minX, maxX = math.min(x1, x2), math.max(x1, x2)
+    local minY, maxY = math.min(y1, y2), math.max(y1, y2)
+    local minZ, maxZ = math.min(z1, z2), math.max(z1, z2)
+
+    return px >= minX and px <= maxX
+       and py >= minY and py <= maxY
+       and pz >= minZ and pz <= maxZ
+end
+
 return { 
     round = round, 
     pixel = pixel, 
@@ -933,6 +943,7 @@ return {
     getPlayerData = getPlayerData,
     --getMap = getMap,
     requestImage = requestImage,
-    numberSpacing = numberSpacing
+    numberSpacing = numberSpacing,
+    isInArea = isInArea
 
 }
