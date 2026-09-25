@@ -12,7 +12,7 @@ arrived = false
 function wait() 
     while true do
         local event, id = os.pullEvent()
-        if event == "timer" and id == timer then
+        if event == "timer" and id == t then
             tu = true  
             print("Timer up")      
         end
@@ -41,8 +41,8 @@ function main()
 
         playerData = textutils.unserialiseJSON(f.getPlayerData())
         for pamt, player in ipairs(playerData.players) do
-            print(pamt)
             for famt, floorypos in pairs(floory) do
+                print(famt)
                 floorypos2 = floorypos + 5
                 if arrived and tu and elevator.getCurrentY() ~= floorypos and f.isInArea(player.x, player.y, player.z,coordx1,floorypos,coordz1,coordx2,floorypos2,coordz2) then
                     elevator.setTargetFloor(floorypos)
