@@ -43,11 +43,11 @@ function main()
             playerData = textutils.unserialiseJSON(rpd)
             for pamt, player in ipairs(playerData.players) do
                 for famt, floorypos in pairs(floory) do
-                    print(famt)
                     floorypos2 = floorypos + 5
-                    if arrived and tu and elevator.getCurrentY() ~= floorypos and f.isInArea(player.position.x, player.position.y, player.position.z,coordx1,floorypos,coordz1,coordx2,floorypos2,coordz2) then
+                    if arrived and tu and not elevator.getCurrentY() == floorypos and f.isInArea(player.position.x, player.position.y, player.position.z,coordx1,floorypos,coordz1,coordx2,floorypos2,coordz2) then
                         elevator.setTargetFloor(floorypos)
                         arrived = false
+                        print("Next Floor: "..floorypos)
                     end
                 end
             end
