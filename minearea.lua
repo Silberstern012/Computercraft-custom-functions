@@ -26,7 +26,7 @@
 
 local pos        = { x = 0, y = 0, z = 0 }
 local facing     = 0  -- 0=+x, 1=+z, 2=-x, 3=-z
-local gpsMode    = false
+local gpsMode    = true
 local startPos   = { x = 0, y = 0, z = 0 }
 local startFace  = 0
 
