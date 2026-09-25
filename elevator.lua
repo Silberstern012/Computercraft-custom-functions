@@ -47,4 +47,5 @@ function main()
         end
     end
 end
-                    
+
+parallel.waitForAll(main,arrival,wait)
