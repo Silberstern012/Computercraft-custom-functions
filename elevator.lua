@@ -48,6 +48,7 @@ function main()
                 end
             end
         end
+        os.sleep(1)
     end
 end
 
