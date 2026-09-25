@@ -21,9 +21,12 @@ end
 function arrival() 
     while true do
         if elevator.isArrived() then
-            arrived = true
-            t = os.startTimer(3)
+            if arrived == false
+                t = os.startTimer(3)
+                arrived = true
+            end
         end
+        os.sleep(0.5)
     end
 end
 
