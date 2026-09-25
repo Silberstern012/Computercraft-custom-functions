@@ -1,0 +1,50 @@
+f = require("functions")
+elevator = peripheral.find("Create_ElevatorPulley")
+
+coordx1 = -3026
+coordx2 = -3023
+coordz1 = -9694
+coordz2 = -9691
+
+t = os.startTimer(1)
+tu = false
+arrived = false
+function wait() 
+    while true do
+        local event, id = os.pullEvent()
+        if event == "timer" and id == timer then
+            tu = true        
+        end
+    end
+end
+
+function arrival() 
+    while true do
+        if elevator.isArrived() then
+            arrived = true
+            t = os.startTimer(3)
+        end
+    end
+end
+
+function main()
+    while true do
+        floors = elevator.getFloors()
+        floory = {}
+        for amt, floor in pairs(floors) do
+            floory[amt] = floor.y
+        end
+
+        playerData = textutils.unserialiseJSON(f.getPlayerData())
+        for pamt, player in ipairs(playerData.players) do
+            for famt, floorypos in pairs(floory) do
+                floorypos2 = floorypos + 5
+                if arrived and tu and elevator.getCurrentY() ~= floorypos and f.isInArea(player.x, player.y, player.z,coordx1,floorypos,coordz1,coordx2,floorypos2,coordz2) then
+                    elevator.setTargetFloor(floorypos)
+                    arrived = false
+                end
+            end
+        end
+    end
+end
+                    
