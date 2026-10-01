@@ -23,7 +23,7 @@ for amt, name in ipairs(outputs) do
   if amt % 4 == 0 then output1 = name
   elseif amt % 4 == 1 then output2 = name
   elseif amt % 4 == 2 then output3 = name
-  else output4[#output4+1 = name
+  else output4 = name
   end
 end
 
