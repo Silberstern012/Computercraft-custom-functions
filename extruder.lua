@@ -18,12 +18,12 @@ end
 print("Loaded "..#extruders)
 
 
-local output1, output2, output3, output4 = {}, {}, {}, {}
+local output1, output2, output3, output4 = "", "", "", ""
 for amt, name in ipairs(outputs) do
-  if amt % 4 == 0 then output1[#output1+1] = name
-  elseif amt % 4 == 1 then output2[#output2+1] = name
-  elseif amt % 4 == 2 then output3[#output3+1] = name
-  else output4[#output4+1] = name
+  if amt % 4 == 0 then output1 = name
+  elseif amt % 4 == 1 then output2 = name
+  elseif amt % 4 == 2 then output3 = name
+  else output4[#output4+1 = name
   end
 end
 
