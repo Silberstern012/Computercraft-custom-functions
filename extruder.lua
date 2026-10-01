@@ -5,19 +5,27 @@ if monitor then
   monitor.setCursorPos(1,1)
 end
 
-local output1 = "sophisticatedstorage:chest_1"
-local output2 = "sophisticatedstorage:chest_2"
-local output3 = "sophisticatedstorage:chest_3"
-local output4 = "sophisticatedstorage:chest_4"
-
+local outputs = {}
 local extruders = {}
 for _, name in ipairs(peripheral.getNames()) do
   if peripheral.getType(name) == "create_mechanical_extruder:mechanical_extruder" then
     extruders[#extruders+1] = name
+  elseif peripheral.getType(name) == "sophisticatedstorage:chest" then
+    outputs[#outputs+1] = name
   end
 end
 
 print("Loaded "..#extruders)
+
+
+local output1, output2, output3, output4 = {}, {}, {}, {}
+for amt, name in ipairs(outputs) do
+  if amt % 4 == 0 then output1[#output1+1] = name
+  elseif amt % 4 == 1 then output2[#output2+1] = name
+  elseif amt % 4 == 2 then output3[#output3+1] = name
+  else output4[#output4+1] = name
+  end
+end
 
 local list1, list2, list3, list4 = {}, {}, {}, {}
 for i, name in ipairs(extruders) do
