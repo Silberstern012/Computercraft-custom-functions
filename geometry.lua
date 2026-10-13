@@ -46,5 +46,5 @@ end
 
 return {
     drawCircle = drawCircle, 
-    draw Filled Circle = drawFilledCircle
+    drawFilledCircle = drawFilledCircle
 } 
