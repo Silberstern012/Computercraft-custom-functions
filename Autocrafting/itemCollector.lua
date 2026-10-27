@@ -3,6 +3,9 @@
 modem = peripheral.find("modem", rednet.open)
 container = peripheral.wrap("left")
 
+syscn = nil 
+
+
 outputs = {}
 importer = {}
 exporter = {}
@@ -12,9 +15,10 @@ function run()
     local event, sender, message, protocol = os.pullEvent("rednet_message")
     if protocol == "systemstart" then
       rednet.send(sender,"collector","preload")
-    end
-    if protocol == "collectTask" then
+    elseif protocol == "collectTask" then
       rednet.send(sender,collect(message),"taskFinish")
+    elseif protocol == "number" then
+      syscn = message   
     end
   end  
 end

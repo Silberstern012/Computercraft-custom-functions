@@ -16,10 +16,11 @@ function run()
 end
 
 function craft(msg)
+  local rshape = nil
   reciepe = msg.reciepe
   amt = msg.amt
   
-  
+  for slot,item in ipairs(reciepe)
 
 
 end

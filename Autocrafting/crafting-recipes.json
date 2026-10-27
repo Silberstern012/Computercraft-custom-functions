@@ -1,0 +1,12 @@
+{
+    "minecraft:spruce_planks": {
+        "name":"minecraft:spruce_planks",
+        "recipe":[
+            " "," "," ",
+            " ","minecraft:spruce_log"," ",
+            " "," "," "
+        ],
+        "outAmt": 4,
+        "tAmt": 10000
+    }
+}
