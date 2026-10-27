@@ -1,32 +1,442 @@
 {
-    "minecraft:spruce_planks": {
-        "name":"minecraft:spruce_planks",
-        "recipe":[
-            "","","",
-            "","minecraft:spruce_log","",
-            "","",""
+    "minecraft:oak_planks": {
+        "name": "minecraft:oak_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:oak_log", "",
+            "", "", ""
         ],
         "outAmt": 4,
-        "tAmt": 10000
+        "tAmt": 1024
     },
-    "minecraft:spruce_slab": {
-        "name":"minecraft:spruce_slab",
-        "recipe":[
-            "","","",
-            "","","",
-            "minecraft:spruce_planks","minecraft:spruce_planks","minecraft:spruce_planks"
+    "minecraft:oak_slab": {
+        "name": "minecraft:oak_slab",
+        "recipe": [
+            "", "", "",
+            "", "", "",
+            "minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks"
         ],
         "outAmt": 6,
-        "tAmt": 10000
+        "tAmt": 1024
     },
-    "minecraft:barrel": {
-        "name":"minecraft:barrel",
-        "recipe":[
-            "minecraft:spruce_planks","minecraft:spruce_slab","minecraft:spruce_planks",
-            "minecraft:spruce_planks","","minecraft:spruce_planks",
-            "minecraft:spruce_planks","minecraft:spruce_slab","minecraft:spruce_planks"
+    "minecraft:oak_stairs": {
+        "name": "minecraft:oak_stairs",
+        "recipe": [
+            "minecraft:oak_planks", "", "",
+            "minecraft:oak_planks", "minecraft:oak_planks", "",
+            "minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks"
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:crafting_table": {
+        "name": "minecraft:crafting_table",
+        "recipe": [
+            "", "", "",
+            "minecraft:spruce_planks", "minecraft:spruce_planks", "",
+            "minecraft:spruce_planks", "minecraft:spruce_planks", ""
         ],
         "outAmt": 1,
-        "tAmt": 10000
+        "tAmt": 1024
+    },
+    "minecraft:chest": {
+        "name": "minecraft:chest",
+        "recipe": [
+            "minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks",
+            "minecraft:oak_planks", "", "minecraft:oak_planks",
+            "minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks"
+        ],
+        "outAmt": 1,
+        "tAmt": 128
+    },
+    "minecraft:barrel": {
+        "name": "minecraft:barrel",
+        "recipe": [
+            "minecraft:spruce_planks", "minecraft:spruce_slab", "minecraft:spruce_planks",
+            "minecraft:spruce_planks", "", "minecraft:spruce_planks",
+            "minecraft:spruce_planks", "minecraft:spruce_slab", "minecraft:spruce_planks"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:spruce_planks": {
+        "name": "minecraft:spruce_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:spruce_log", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:spruce_slab": {
+        "name": "minecraft:spruce_slab",
+        "recipe": [
+            "", "", "",
+            "", "", "",
+            "minecraft:spruce_planks", "minecraft:spruce_planks", "minecraft:spruce_planks"
+        ],
+        "outAmt": 6,
+        "tAmt": 1024
+    },
+    "minecraft:spruce_stairs": {
+        "name": "minecraft:spruce_stairs",
+        "recipe": [
+            "minecraft:spruce_planks", "", "",
+            "minecraft:spruce_planks", "minecraft:spruce_planks", "",
+            "minecraft:spruce_planks", "minecraft:spruce_planks", "minecraft:spruce_planks"
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:birch_planks": {
+        "name": "minecraft:birch_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:birch_log", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:birch_slab": {
+        "name": "minecraft:birch_slab",
+        "recipe": [
+            "", "", "",
+            "", "", "",
+            "minecraft:birch_planks", "minecraft:birch_planks", "minecraft:birch_planks"
+        ],
+        "outAmt": 6,
+        "tAmt": 1024
+    },
+    "minecraft:birch_stairs": {
+        "name": "minecraft:birch_stairs",
+        "recipe": [
+            "minecraft:birch_planks", "", "",
+            "minecraft:birch_planks", "minecraft:birch_planks", "",
+            "minecraft:birch_planks", "minecraft:birch_planks", "minecraft:birch_planks"
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:jungle_planks": {
+        "name": "minecraft:jungle_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:jungle_log", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:jungle_slab": {
+        "name": "minecraft:jungle_slab",
+        "recipe": [
+            "", "", "",
+            "", "", "",
+            "minecraft:jungle_planks", "minecraft:jungle_planks", "minecraft:jungle_planks"
+        ],
+        "outAmt": 6,
+        "tAmt": 1024
+    },
+    "minecraft:acacia_planks": {
+        "name": "minecraft:acacia_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:acacia_log", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:acacia_slab": {
+        "name": "minecraft:acacia_slab",
+        "recipe": [
+            "", "", "",
+            "", "", "",
+            "minecraft:acacia_planks", "minecraft:acacia_planks", "minecraft:acacia_planks"
+        ],
+        "outAmt": 6,
+        "tAmt": 1024
+    },
+    "minecraft:dark_oak_planks": {
+        "name": "minecraft:dark_oak_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:dark_oak_log", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:dark_oak_slab": {
+        "name": "minecraft:dark_oak_slab",
+        "recipe": [
+            "", "", "",
+            "", "", "",
+            "minecraft:dark_oak_planks", "minecraft:dark_oak_planks", "minecraft:dark_oak_planks"
+        ],
+        "outAmt": 6,
+        "tAmt": 1024
+    },
+    "minecraft:mangrove_planks": {
+        "name": "minecraft:mangrove_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:mangrove_log", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:mangrove_slab": {
+        "name": "minecraft:mangrove_slab",
+        "recipe": [
+            "", "", "",
+            "", "", "",
+            "minecraft:mangrove_planks", "minecraft:mangrove_planks", "minecraft:mangrove_planks"
+        ],
+        "outAmt": 6,
+        "tAmt": 1024
+    },
+    "minecraft:cherry_planks": {
+        "name": "minecraft:cherry_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:cherry_log", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:cherry_slab": {
+        "name": "minecraft:cherry_slab",
+        "recipe": [
+            "", "", "",
+            "", "", "",
+            "minecraft:cherry_planks", "minecraft:cherry_planks", "minecraft:cherry_planks"
+        ],
+        "outAmt": 6,
+        "tAmt": 1024
+    },
+    "minecraft:bamboo_planks": {
+        "name": "minecraft:bamboo_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:bamboo_block", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:crimson_planks": {
+        "name": "minecraft:crimson_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:crimson_stem", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:warped_planks": {
+        "name": "minecraft:warped_planks",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:warped_stem", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:stone_bricks": {
+        "name": "minecraft:stone_bricks",
+        "recipe": [
+            "minecraft:stone", "minecraft:stone", "",
+            "minecraft:stone", "minecraft:stone", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:stone_brick_slab": {
+        "name": "minecraft:stone_brick_slab",
+        "recipe": [
+            "", "", "",
+            "", "", "",
+            "minecraft:stone_bricks", "minecraft:stone_bricks", "minecraft:stone_bricks"
+        ],
+        "outAmt": 6,
+        "tAmt": 1024
+    },
+    "minecraft:bricks": {
+        "name": "minecraft:bricks",
+        "recipe": [
+            "minecraft:brick", "minecraft:brick", "",
+            "minecraft:brick", "minecraft:brick", "",
+            "", "", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:glass_pane": {
+        "name": "minecraft:glass_pane",
+        "recipe": [
+            "", "", "",
+            "minecraft:glass", "minecraft:glass", "minecraft:glass",
+            "minecraft:glass", "minecraft:glass", "minecraft:glass"
+        ],
+        "outAmt": 16,
+        "tAmt": 1024
+    },
+    "minecraft:furnace": {
+        "name": "minecraft:furnace",
+        "recipe": [
+            "minecraft:cobblestone", "minecraft:cobblestone", "minecraft:cobblestone",
+            "minecraft:cobblestone", "", "minecraft:cobblestone",
+            "minecraft:cobblestone", "minecraft:cobblestone", "minecraft:cobblestone"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:smoker": {
+        "name": "minecraft:smoker",
+        "recipe": [
+            "minecraft:oak_log", "minecraft:oak_log", "minecraft:oak_log",
+            "", "minecraft:furnace", "",
+            "minecraft:oak_log", "minecraft:oak_log", "minecraft:oak_log"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:blast_furnace": {
+        "name": "minecraft:blast_furnace",
+        "recipe": [
+            "minecraft:iron_ingot", "minecraft:iron_ingot", "minecraft:iron_ingot",
+            "minecraft:smooth_stone", "minecraft:furnace", "minecraft:smooth_stone",
+            "minecraft:iron_ingot", "minecraft:iron_ingot", "minecraft:iron_ingot"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:campfire": {
+        "name": "minecraft:campfire",
+        "recipe": [
+            "minecraft:oak_log", "minecraft:oak_log", "minecraft:oak_log",
+            "minecraft:oak_log", "minecraft:coal", "minecraft:oak_log",
+            "minecraft:oak_log", "minecraft:oak_log", "minecraft:oak_log"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:torch": {
+        "name": "minecraft:torch",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:coal", "",
+            "", "minecraft:stick", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:stick": {
+        "name": "minecraft:stick",
+        "recipe": [
+            "", "", "",
+            "", "minecraft:oak_planks", "",
+            "", "minecraft:oak_planks", ""
+        ],
+        "outAmt": 4,
+        "tAmt": 1024
+    },
+    "minecraft:ladder": {
+        "name": "minecraft:ladder",
+        "recipe": [
+            "minecraft:stick", "", "minecraft:stick",
+            "minecraft:stick", "minecraft:stick", "minecraft:stick",
+            "minecraft:stick", "", "minecraft:stick"
+        ],
+        "outAmt": 3,
+        "tAmt": 1024
+    },
+    "minecraft:bucket": {
+        "name": "minecraft:bucket",
+        "recipe": [
+            "", "", "",
+            "minecraft:iron_ingot", "", "minecraft:iron_ingot",
+            "", "minecraft:iron_ingot", ""
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:iron_block": {
+        "name": "minecraft:iron_block",
+        "recipe": [
+            "minecraft:iron_ingot", "minecraft:iron_ingot", "minecraft:iron_ingot",
+            "minecraft:iron_ingot", "minecraft:iron_ingot", "minecraft:iron_ingot",
+            "minecraft:iron_ingot", "minecraft:iron_ingot", "minecraft:iron_ingot"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:gold_block": {
+        "name": "minecraft:gold_block",
+        "recipe": [
+            "minecraft:gold_ingot", "minecraft:gold_ingot", "minecraft:gold_ingot",
+            "minecraft:gold_ingot", "minecraft:gold_ingot", "minecraft:gold_ingot",
+            "minecraft:gold_ingot", "minecraft:gold_ingot", "minecraft:gold_ingot"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:diamond_block": {
+        "name": "minecraft:diamond_block",
+        "recipe": [
+            "minecraft:diamond", "minecraft:diamond", "minecraft:diamond",
+            "minecraft:diamond", "minecraft:diamond", "minecraft:diamond",
+            "minecraft:diamond", "minecraft:diamond", "minecraft:diamond"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:emerald_block": {
+        "name": "minecraft:emerald_block",
+        "recipe": [
+            "minecraft:emerald", "minecraft:emerald", "minecraft:emerald",
+            "minecraft:emerald", "minecraft:emerald", "minecraft:emerald",
+            "minecraft:emerald", "minecraft:emerald", "minecraft:emerald"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:bookshelf": {
+        "name": "minecraft:bookshelf",
+        "recipe": [
+            "minecraft:oak_planks", "minecraft:book", "minecraft:oak_planks",
+            "minecraft:oak_planks", "minecraft:book", "minecraft:oak_planks",
+            "minecraft:oak_planks", "minecraft:book", "minecraft:oak_planks"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:loom": {
+        "name": "minecraft:loom",
+        "recipe": [
+            "minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks",
+            "minecraft:stick", "minecraft:stick", "minecraft:stick",
+            "", "", ""
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
+    },
+    "minecraft:anvil": {
+        "name": "minecraft:anvil",
+        "recipe": [
+            "minecraft:iron_block", "minecraft:iron_block", "minecraft:iron_block",
+            "", "minecraft:iron_ingot", "",
+            "minecraft:iron_ingot", "minecraft:iron_ingot", "minecraft:iron_ingot"
+        ],
+        "outAmt": 1,
+        "tAmt": 1024
     }
 }
