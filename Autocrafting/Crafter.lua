@@ -1,7 +1,7 @@
 -- by Silberstern012 (Silver)
 
 modem = peripheral.find("modem", rednet.open)
-container = peripheral.wrap("front")
+output = peripheral.wrap("front")
 input = peripheral.wrap("back")
 
 function run()
@@ -15,9 +15,13 @@ function run()
   end  
 end
 
-function craft(layout)
+function craft(msg)
+  reciepe = msg.reciepe
+  amt = msg.amt
   
   
+
+
 end
 
 run()
