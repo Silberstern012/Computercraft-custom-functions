@@ -2,11 +2,31 @@
     "minecraft:spruce_planks": {
         "name":"minecraft:spruce_planks",
         "recipe":[
-            " "," "," ",
-            " ","minecraft:spruce_log"," ",
-            " "," "," "
+            "","","",
+            "","minecraft:spruce_log","",
+            "","",""
         ],
         "outAmt": 4,
+        "tAmt": 10000
+    },
+    "minecraft:spruce_slab": {
+        "name":"minecraft:spruce_slab",
+        "recipe":[
+            "","","",
+            "","","",
+            "minecraft:spruce_planks","minecraft:spruce_planks","minecraft:spruce_planks"
+        ],
+        "outAmt": 6,
+        "tAmt": 10000
+    },
+    "minecraft:barrel": {
+        "name":"minecraft:barrel",
+        "recipe":[
+            "minecraft:spruce_planks","minecraft:spruce_slab","minecraft:spruce_planks",
+            "minecraft:spruce_planks","","minecraft:spruce_planks",
+            "minecraft:spruce_planks","minecraft:spruce_slab","minecraft:spruce_planks"
+        ],
+        "outAmt": 1,
         "tAmt": 10000
     }
 }
