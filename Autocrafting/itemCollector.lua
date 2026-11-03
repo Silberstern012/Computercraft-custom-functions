@@ -63,13 +63,10 @@ function collect(list)
 end  
 
 function numericSort(a,b)
-  local strA = type(a) == "string" and a or tostring(a or "")
-  local strB = type(b) == "string" and b or tostring(b or "")
-  local nA = tonumber(a:match("_(%d+)$")) or 0
-  local nB = tonumber(b:match("_(%d+)$")) or 0
-  if nA == nB then
-    return strA < strB
-  end
+  local nameA = type(a) == "string" and a or tostring(a or "")
+  local nameB = type(b) == "string" and b or tostring(b or "")
+  local nA = tonumber(nameA:match("_(%d+)$")) or 0
+  local nB = tonumber(nameB:match("_(%d+)$")) or 0
   return nA < nB
 end  
   
