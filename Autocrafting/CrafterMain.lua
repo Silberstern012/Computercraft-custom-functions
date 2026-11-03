@@ -5,8 +5,8 @@ peripheral.find("modem", rednet.open)
 computers = {}
 
 
-os.run("delete", "crafting-recipes.json")
-os.run("wget", "https://raw.githubusercontent.com/Silberstern012/Computercraft-custom-functions/refs/heads/main/Autocrafting/crafting-recipes.json")
+shell.run("delete", "crafting-recipes.json")
+shell.run("wget", "https://raw.githubusercontent.com/Silberstern012/Computercraft-custom-functions/refs/heads/main/Autocrafting/crafting-recipes.json")
 
 
 local jfile = fs.open("crafting-recipes.json", "r")
