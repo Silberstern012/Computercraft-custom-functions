@@ -1,10 +1,10 @@
 -- by Silberstern012 (Silver)
 
 modem = peripheral.find("modem", rednet.open)
-output = peripheral.wrap("front")
+output = peripheral.find("sophisticatedstorage:chest")
 input = peripheral.wrap("back")
 
-currentName = modem.getNameLocal()
+currentName = peripheral.wrap("bottom").getNameLocal()
 updating = false
 
 function run()
