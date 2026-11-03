@@ -96,7 +96,7 @@ end
 
 function upd() 
     while true do
-        if redstone.getAnalogInput("right") => 1 then
+        if redstone.getAnalogInput("right") >= 1 then
             UPDATE()
         end
     end
