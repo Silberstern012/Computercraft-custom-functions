@@ -91,7 +91,7 @@ function UPDATE()
     end
     shell.run("update")
     sleep(1)
-    reboot
+    os.reboot()
 end
 
 function upd() 
