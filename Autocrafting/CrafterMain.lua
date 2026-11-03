@@ -34,15 +34,10 @@ function run()
     end    
 end
 
-local timer_id = os.startTimer(3)
-function tr()
-    local event, id
-    repeat
-        event, id = os.pullEvent("timer")
-    until id == timer_id
-    ended = true
+function timr()
+    sleep(3)
 end
-parallel.waitForAll(tr,run)
+parallel.waitForAny(timr,run)
 
 qiolocalData = data
 qiousedData = {}
@@ -103,5 +98,5 @@ function upd()
         sleep(0.05)
     end
 end
-
+term.clear()
 parallel.waitForAll(upd)
