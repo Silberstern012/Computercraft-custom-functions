@@ -83,6 +83,12 @@ end
 
 function UPDATE()
     rednet.broadcast("update","update")
+    if not fs.exists("update.lua") then
+        updF = fs.open("update.lua","w")
+        updF.writeLine('shell.run("delete","startup.lua")')
+        updF.writeLine('shell.run("wget","https://raw.githubusercontent.com/Silberstern012/Computercraft-custom-functions/refs/heads/main/Autocrafting/CrafterMain.lua","startup.lua")')
+        updF.close()
+    end
     shell.run("update")
     sleep(1)
     reboot
