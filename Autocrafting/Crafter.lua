@@ -68,7 +68,7 @@ function vis()
     elseif updating and ctr<25 then term.write("Updating \\") ctr = ctr +1
     elseif ctr>=30 then ctr = 0
     end
-    sleep(0.5)
+    sleep(1)
   end
 end
 
