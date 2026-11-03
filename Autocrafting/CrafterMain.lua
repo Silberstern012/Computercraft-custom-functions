@@ -97,8 +97,10 @@ end
 function upd() 
     while true do
         if redstone.getAnalogInput("right") >= 1 then
+            print("Updating")
             UPDATE()
         end
+        sleep(0.05)
     end
 end
 
