@@ -54,7 +54,7 @@ function collect(list)
   
   for _,output in pairs(outputs) do
     if peripheral.getName(outputChest) == peripheral.getName(output) then
-      for slot=1 container.size() do
+      for slot=1, container.size() do
         container.pushItems(peripheral.getName(output),slot)
       end
     end
@@ -63,9 +63,14 @@ function collect(list)
 end  
 
 function numericSort(a,b)
+  local strA = type(a) == "string" and a or tostring(a or "")
+  local strB = type(b) == "string" and b or tostring(b or "")
   local nA = tonumber(a:match("_(%d+)$")) or 0
   local nB = tonumber(b:match("_(%d+)$")) or 0
+  if nA == nB then
+    return strA < strB
+  end
   return nA < nB
 end  
   
-parralel.waitForAll(collectNeededPeripherals,run)
+parallel.waitForAll(collectNeededPeripherals,run)
