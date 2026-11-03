@@ -3,7 +3,7 @@
 peripheral.find("modem", rednet.open)
 
 computers = {}
-
+updating = false
 
 shell.run("delete", "crafting-recipes.json")
 shell.run("wget", "https://raw.githubusercontent.com/Silberstern012/Computercraft-custom-functions/refs/heads/main/Autocrafting/crafting-recipes.json")
@@ -84,6 +84,7 @@ function UPDATE()
         updF.writeLine('shell.run("wget","https://raw.githubusercontent.com/Silberstern012/Computercraft-custom-functions/refs/heads/main/Autocrafting/CrafterMain.lua","startup.lua")')
         updF.close()
     end
+    updating = true
     shell.run("update")
     sleep(1)
     os.reboot()
@@ -98,5 +99,21 @@ function upd()
         sleep(0.05)
     end
 end
-term.clear()
-parallel.waitForAll(upd)
+
+function vis()
+  local ctr = 0
+  while true do
+    term.clear()
+    term.setCursorPos(2,2)
+    if not updating then term.write("CrafterMain  ---  by Silver")
+    elseif updating and ctr<5 then term.write("Updating |") ctr = ctr +1
+    elseif updating and ctr<10 then term.write("Updating /") ctr = ctr +1
+    elseif updating and ctr<15 then term.write("Updating -") ctr = ctr +1
+    elseif updating and ctr<20 then term.write("Updating |") ctr = ctr +1
+    elseif updating and ctr<25 then term.write("Updating \\") ctr = ctr +1
+    elseif ctr>=30 then ctr = 0
+    end
+  end
+end
+
+parallel.waitForAll(upd,vis)

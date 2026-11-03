@@ -4,7 +4,7 @@ modem = peripheral.find("modem", rednet.open)
 container = peripheral.wrap("left")
 
 syscn = nil 
-
+updating = false
 
 outputs = {}
 importer = {}
@@ -80,6 +80,7 @@ function UPDATE()
         updF.writeLine('shell.run("wget","https://raw.githubusercontent.com/Silberstern012/Computercraft-custom-functions/refs/heads/main/Autocrafting/itemCollector.lua","startup.lua")')
         updF.close()
       end
+      updating = true
       shell.run("update")
       sleep(1)
       os.reboot()
@@ -87,4 +88,20 @@ function UPDATE()
   end
 end
 
-parallel.waitForAll(collectNeededPeripherals,run,UPDATE)
+function vis()
+  local ctr = 0
+  while true do
+    term.clear()
+    term.setCursorPos(2,2)
+    if not updating then term.write("itemCollector  ---  by Silver")
+    elseif updating and ctr<5 then term.write("Updating |") ctr = ctr +1
+    elseif updating and ctr<10 then term.write("Updating /") ctr = ctr +1
+    elseif updating and ctr<15 then term.write("Updating -") ctr = ctr +1
+    elseif updating and ctr<20 then term.write("Updating |") ctr = ctr +1
+    elseif updating and ctr<25 then term.write("Updating \\") ctr = ctr +1
+    elseif ctr>=30 then ctr = 0
+    end
+  end
+end
+
+parallel.waitForAll(collectNeededPeripherals,run,UPDATE,vis)
