@@ -72,4 +72,4 @@ function vis()
   end
 end
 
-parallel.waitForAll(run,Update,vis)
+parallel.waitForAll(run,UPDATE,vis)
