@@ -81,3 +81,19 @@ function mainQIOCollector()
     end
 end
 
+function UPDATE()
+    rednet.broadcast("update","update")
+    shell.run("update")
+    sleep(1)
+    reboot
+end
+
+function upd() 
+    while true do
+        if redstone.getAnalogInput("right") => 1 then
+            UPDATE()
+        end
+    end
+end
+
+parallel.waitForAll(upd)

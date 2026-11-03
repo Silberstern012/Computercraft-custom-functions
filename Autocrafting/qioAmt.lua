@@ -70,4 +70,21 @@ function tryVal(val)
   if redstone.getAnalogInput("bottom") == 13 then return true else return false end
 end
 
-run()
+function UPDATE()
+  while true do 
+    local event, sender, message, protocol = os.pullEvent("rednet_message")
+    if protocol == "update" then
+      if not fs.exists("update.lua") then
+        updF = fs.open("update.lua","w")
+        updF.writeLine('shell.run("delete","startup.lua")')
+        updF.writeLine('shell.run("wget","https://raw.githubusercontent.com/Silberstern012/Computercraft-custom-functions/refs/heads/main/Autocrafting/qioAmt.lua","startup.lua")')
+        updF.close()
+      end
+      shell.run("update")
+      sleep(1)
+      os.reboot()
+    end
+  end
+end
+
+parallel.waitForAll(run,UPDATE)
