@@ -94,14 +94,14 @@ function vis()
     term.clear()
     term.setCursorPos(2,2)
     if not updating then term.write("itemCollector  ---  by Silver")
-    elseif updating and ctr<5 then term.write("Updating |") ctr = ctr +1
-    elseif updating and ctr<10 then term.write("Updating /") ctr = ctr +1
-    elseif updating and ctr<15 then term.write("Updating -") ctr = ctr +1
-    elseif updating and ctr<20 then term.write("Updating |") ctr = ctr +1
-    elseif updating and ctr<25 then term.write("Updating \\") ctr = ctr +1
-    elseif ctr>=30 then ctr = 0
+    elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
+    elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
+    elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1
+    elseif updating and ctr<4 then term.write("Updating |") ctr = ctr +1
+    elseif updating and ctr<5 then term.write("Updating \\") ctr = ctr +1
+    elseif ctr>=6 then ctr = 0
     end
-    sleep(1)
+    sleep(0.5)
   end
 end
 
