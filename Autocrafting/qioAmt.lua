@@ -29,14 +29,14 @@ function getAmt(item)
   qior.clearTargetItem()
   qior.setTriggerAmount(0)
   qior.setTargetItem(item)
-  if not qior.isInverted then qior.invertSignal() inverted = qior.isInverted() end
+  if not qior.isInverted() then qior.invertSignal() inverted = qior.isInverted() end
   active = true
   
   tryVal(currentVal)
-  if not tryVal(currentVal + 1) and lastVal<=1 then return 0 end
-    
+  if tryVal(1) then return 1 end
+
   while not tryVal(currentVal) do
-    lastVal = currentVal
+    --lastVal = currentVal
     currentVal = currentVal + 1000
   end  
   
@@ -69,7 +69,7 @@ end
   
 
 function tryVal(val)
-  qio.setTriggerAmount(val)
+  qior.setTriggerAmount(val)
   sleep(0.3)
   if redstone.getAnalogInput("bottom") == 13 then return true else return false end
 end
