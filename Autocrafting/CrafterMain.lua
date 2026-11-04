@@ -17,18 +17,14 @@ jfile.close()
 
 local data = textutils.unserialiseJSON(sjson)
 
---for item in pairs(data) do
---    print(item)
---end    
-ended = false
 
 function run()
     rednet.broadcast("preload","systemstart")
-    while not ended do
+    while true do
         local event, sender, message, protocol = os.pullEvent("rednet_message")
         local message = tostring(message)
         if protocoll == "preload" then
-            computers[message] = computer[message] or {}
+            computers[message] = computers[message] or {}
             computers[message][#computers[message]+1]=sender
         end
     end    
