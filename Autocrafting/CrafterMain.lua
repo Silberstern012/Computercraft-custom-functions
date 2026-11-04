@@ -25,7 +25,7 @@ function run()
         local message = tostring(message)
         if protocol == "preload" then
             print("connected: "..message)
-            --computers[message] = computers[message] or {}
+            computers[message] = computers[message] or {}
             computers[message][#computers[message]+1]=sender
         end
     end    
@@ -105,7 +105,7 @@ function vis()
     if not updating then term.write("CrafterMain  ---  by Silver")
         term.setCursorPos(2,4)
         term.write("Connected Devices:")
-        term.setCursorPos(1,5)
+        term.setCursorPos(3,5)
         --for device in pairs(computers) do print(device) print() end
         term.write("qioAmt:     "..#computers.qioAmt)
         term.setCursorPos(3,6)
