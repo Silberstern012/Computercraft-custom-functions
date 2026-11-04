@@ -108,12 +108,13 @@ function vis()
     if not updating then term.write("CrafterMain  ---  by Silver")
         term.setCursorPos(2,4)
         term.write("Connected Devices:")
-        term.setCursorPos(3,5)
-        term.write("qioAmt:     "..#computers.qioAmt)
-        term.setCursorPos(3,6)
-        term.write("Crafter:    "..#computers.crafter)
-        term.setCursorPos(3,7)
-        term.write("Collectors: "..#computers.collector)
+        term.setCursorPos(1,5)
+        for device in pairs(computers) do print(device) print() end
+        --term.write("qioAmt:     "..#computers.qioAmt)
+        --term.setCursorPos(3,6)
+        --term.write("Crafter:    "..#computers.crafter)
+        --term.setCursorPos(3,7)
+        --term.write("Collectors: "..#computers.collector)
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
     elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1
