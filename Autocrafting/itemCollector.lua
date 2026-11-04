@@ -5,6 +5,7 @@ container = peripheral.wrap("left")
 
 syscn = nil 
 updating = false
+called = false
 
 outputs = {}
 importer = {}
@@ -15,6 +16,7 @@ function run()
     local event, sender, message, protocol = os.pullEvent("rednet_message")
     if protocol == "systemstart" then
       rednet.send(sender,"collector","preload")
+      called = true
     elseif protocol == "collectTask" then
       rednet.send(sender,collect(message),"taskFinish")
     elseif protocol == "number" then
@@ -94,6 +96,8 @@ function vis()
     term.clear()
     term.setCursorPos(2,2)
     if not updating then term.write("itemCollector  ---  by Silver")
+      term.setCursorPos(2,4)
+      term.write("Called: "..called)
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
     elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1
