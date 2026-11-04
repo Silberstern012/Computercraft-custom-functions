@@ -97,7 +97,7 @@ function vis()
     term.setCursorPos(2,2)
     if not updating then term.write("itemCollector  ---  by Silver")
       term.setCursorPos(2,4)
-      term.write("Called: "..called)
+      term.write("Called: "..tostring(called))
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
     elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1
