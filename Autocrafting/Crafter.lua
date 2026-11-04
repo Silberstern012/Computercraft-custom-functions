@@ -23,7 +23,8 @@ function craft(msg)
   recipe = msg.recipe
   
   for slot,item in ipairs(recipe) do
-    for cslot, citem in ipairs(input.size()) do
+    for cslot=1,input.size() do
+      item = input.getItemDetail(cslot)
       if item == citem then
         input.pushItems(currentName,64,slot)
       end
