@@ -5,6 +5,7 @@ qior = peripheral.wrap("left")
 
 updating = false
 
+
 function run()
   while true do
     local event, sender, message, protocol = os.pullEvent("rednet_message")
@@ -18,6 +19,7 @@ function run()
 end
 
 function getAmt(item)
+  local lastVal = 0
   local currentVal = 0
   local cVal = false
   local lastcVal = false
@@ -27,7 +29,7 @@ function getAmt(item)
   qior.clearTargetItem()
   qior.setTriggerAmount(0)
   qior.setTargetItem(item)
-  if not qio.isInverted then qio.invertSignal() inverted = qio.isInverted() end
+  if not qior.isInverted then qior.invertSignal() inverted = qior.isInverted() end
   active = true
   
   tryVal(currentVal)
@@ -44,20 +46,21 @@ function getAmt(item)
       tryVal(currentVal)
     else  
       currentVal=currentVal+val
-      tryVal(currentval)
+      tryVal(currentVal)
     end  
   end  
   
   if redstone.getAnalogInput("bottom")==13 then state = true else state = false end
+  cVal = state
   while active do
     lastcVal = cVal
     if not state then
       currentVal = currentVal+1
-      cval = tryVal(currentVal)
+      cVal = tryVal(currentVal)
       if lastcVal == not cVal then active = false return currentVal end
     else
       currentVal = currentVal-1
-      cval = tryVal(currentVal)
+      cVal = tryVal(currentVal)
       if lastcVal == not cVal then active = false return currentVal+1 end
     end
   end  
