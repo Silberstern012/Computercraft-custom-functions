@@ -23,9 +23,9 @@ function run()
     while true do
         local event, sender, message, protocol = os.pullEvent("rednet_message")
         local message = tostring(message)
-        if protocoll == "preload" then
+        if protocol == "preload" then
             print(message)
-            computers[message] = computers[message] or {}
+            --computers[message] = computers[message] or {}
             computers[message][#computers[message]+1]=sender
         end
     end    
