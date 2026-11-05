@@ -117,4 +117,4 @@ function vis()
   end
 end
 
-parallel.waitForAll(collectNeededPeripherals,run,UPDATE,vis)
+parallel.waitForAll(run,UPDATE,vis)
