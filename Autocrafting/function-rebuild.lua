@@ -170,7 +170,7 @@ function collectItem(details)
     exp.addFilter(filter)
 
     local containeria = 0
-    while containeria < itemamt then
+    while containeria < itemamt do
         containeria = 0
         for _,itm in ipairs(container.list()) do
             containeria=containeria+itm.count
