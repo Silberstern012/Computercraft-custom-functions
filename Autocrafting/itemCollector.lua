@@ -3,7 +3,7 @@
 modem = peripheral.find("modem", rednet.open)
 container = peripheral.wrap("left")
 
-syscn = nil 
+sysnum = nil 
 updating = false
 called = false
 
@@ -20,49 +20,57 @@ function run()
     elseif protocol == "collectTask" then
       rednet.send(sender,collect(message),"taskFinish")
     elseif protocol == "number" then
-      syscn = message   
+      sysnum = message   
     end
   end  
 end
 
-function collectNeededPeripherals()
-  outputs = {peripheral.find("minecraft:chest")}
-  importer = {peripheral.find("mekanism:qio_importer")}
-  exporter = {peripheral.find("mekanism:qio_exporter")}
+function cnp()
+    outputs = {peripheral.find("minecraft:chest")}
+    importer = {peripheral.find("mekanism:qio_importer")}
+    exporter = {peripheral.find("mekanism:qio_exporter")}
   
-  table.sort(outputs,numericSort)
-  table.sort(importer,numericSort)
-  table.sort(exporter,numericSort)
+    for i,output in ipairs(outputs) do outputs[i]=peripheral.getName(output) end 
+    for i,import in ipairs(importer) do importer[i]=peripheral.getName(import) end
+    for i,export in ipairs(exporter) do exporter[i]=peripheral.getName(export) end
+
+    table.sort(outputs,numericSort)
+    table.sort(importer,numericSort)
+    table.sort(exporter,numericSort)
+
+    imp = peripheral.find(importer[sysnum])
+    qio = peripheral.find(exporter[sysnum])
 end
 
-function collect(list)
-  local id = list.id
-  local itemName = list.name
-  local itemAmount = list.amount
-  local outputChest = list.output
-  local targetAmount = 0
-  
-  qio.addFilter(itemName)
-  
-  while not targetAmount >= itemAmount do
-    local currentAmount = 0
-    for _,item in pairs(container.list()) do
-      currentAmount = currentAmount + item.count
+function collectItem(details)
+    local itemname = details.name
+    local itemamt = details.amt
+    local output = details.out
+    
+    local filter = {enabled = true, fuzzy = false, item = itemname,type = "QIO_ITEMSTACK_FILTER"}
+    
+    imp.setImportWithoutFilter(false)
+
+    exp.addFilter(filter)
+
+    local containeria = 0
+    while containeria < itemamt then
+        containeria = 0
+        for _,itm in ipairs(container.list()) do
+            containeria=containeria+itm.count
+        end
     end
-    targetAmount = currentAmount
-  end
-  
-  qio.removeFilter(itemName)
-  
-  for _,output in pairs(outputs) do
-    if peripheral.getName(outputChest) == peripheral.getName(output) then
-      for slot=1, container.size() do
-        container.pushItems(peripheral.getName(output),slot)
-      end
+
+    for _,filt in ipairs(qio.getFilters()) do
+        qio.removeFilter(filt)
     end
-  end
-  return true
-end  
+
+    for slot=1, container.size() do
+        container.pushItems(outputs[output],slot)
+    end
+
+    imp.setImportWithoutFilter(true)
+end
 
 function numericSort(a,b)
   local nameA = type(a) == "string" and a or tostring(a or "")
@@ -70,7 +78,7 @@ function numericSort(a,b)
   local nA = tonumber(nameA:match("_(%d+)$")) or 0
   local nB = tonumber(nameB:match("_(%d+)$")) or 0
   return nA < nB
-end  
+end
   
 function UPDATE()
   while true do 
