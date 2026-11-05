@@ -125,3 +125,4 @@ end
 s,e=pcall(function()
 parallel.waitForAll(upd,vis)
 end)
+if not s then os.reboot() end
