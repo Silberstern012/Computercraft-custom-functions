@@ -122,5 +122,6 @@ function vis()
     sleep(0.5)
   end
 end
-
+s,e=pcall(function()
 parallel.waitForAll(upd,vis)
+end)
