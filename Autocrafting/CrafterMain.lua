@@ -125,4 +125,9 @@ end
 s,e=pcall(function()
 parallel.waitForAll(upd,vis)
 end)
-if s then os.reboot() end
+term.clear()
+term.setCursorPos(1,1)
+print("Failed because:")
+print(e)
+sleep(3)
+os.reboot()

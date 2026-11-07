@@ -66,7 +66,10 @@ function collectItem(details)
     end
 
     for slot=1, container.size() do
-        container.pushItems(outputs[output],slot)
+        if container.getItemDetail(slot) == itemname then
+            container.pushItems(outputs[output],slot,itemamt)
+            itemamt=itemamt-64
+        end
     end
 
     imp.setImportWithoutFilter(true)

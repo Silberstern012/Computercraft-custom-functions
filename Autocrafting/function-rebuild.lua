@@ -16,7 +16,7 @@ function numericSort(a,b)
   return nA < nB
 end
 
---Crafter--
+--qioAmt--
 
 function getAmt(item)
     local val = 0
@@ -81,7 +81,7 @@ function checkR(value)
 end
 
 
---Crafter-old--
+--qioAmt-old--
 
 function getAmt(item)
   local lastVal = 0
@@ -182,7 +182,10 @@ function collectItem(details)
     end
 
     for slot=1, container.size() do
-        container.pushItems(outputs[output],slot)
+        if container.getItemDetail(slot) == itemname then
+            container.pushItems(outputs[output],slot,itemamt)
+            itemamt=itemamt-64
+        end
     end
 
     imp.setImportWithoutFilter(true)
@@ -236,3 +239,17 @@ function numericSort(a,b)
   local nB = tonumber(nameB:match("_(%d+)$")) or 0
   return nA < nB
 end  
+
+
+--Crafter--
+
+function craft(msg)
+    local recipe = msg.recipe
+    local amount = msg.amt
+    
+    
+
+
+
+
+end
