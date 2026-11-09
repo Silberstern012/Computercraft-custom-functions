@@ -16,7 +16,7 @@ local sjson = jfile.readAll()
 jfile.close()
 
 local data = textutils.unserialiseJSON(sjson)
-print(data)
+
 
 function run()
     rednet.broadcast("preload","systemstart")
@@ -80,7 +80,7 @@ end
 
 function qioScan()
     for count, itemData in ipairs(data) do
-        --print(itemData.." "..itemData.name)
+        print(itemData.name)
         local assigned = false
         while not assigned do
             for i,qioA in ipairs(usecomputers["qioAmt"]) do
@@ -167,7 +167,7 @@ function vis()
   end
 end
 s,e=pcall(function()
-parallel.waitForAll(qioScan,upd)
+parallel.waitForAll(rec,qioScan,upd)
 end)
 term.clear()
 term.setCursorPos(1,1)
