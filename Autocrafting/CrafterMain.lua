@@ -16,7 +16,7 @@ local sjson = jfile.readAll()
 jfile.close()
 
 local data = textutils.unserialiseJSON(sjson)
-
+print(data)
 
 function run()
     rednet.broadcast("preload","systemstart")
@@ -24,7 +24,7 @@ function run()
         local event, sender, message, protocol = os.pullEvent("rednet_message")
         local message = tostring(message)
         if protocol == "preload" then
-            print("connected: "..message)
+            --print("connected: "..message)
             computers[message] = computers[message] or {}
             computers[message][#computers[message]+1]=sender
         end
