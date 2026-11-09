@@ -41,13 +41,13 @@ table.sort(computers["collector"],numericSort)
 table.sort(computers["crafter"],numericSort)
 
 
-local items = {}
-local runcomputers = {}
-local usecomputers = computers
+items = {}
+runcomputers = {}
+usecomputers = computers
 
-local runcomputers["qioAmt"] = {}
-local runcomputers["collector"] = {}
-local runcomputers["crafter"] = {}
+runcomputers["qioAmt"] = {}
+runcomputers["collector"] = {}
+runcomputers["crafter"] = {}
 
 
 for number,computer in ipairs(computers["collector"]) do
