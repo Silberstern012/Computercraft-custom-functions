@@ -45,6 +45,9 @@ local items = {}
 local runcomputers = {}
 local usecomputers = computers
 
+local runcomputers["qioAmt"] = {}
+local runcomputers["collector"] = {}
+local runcomputers["crafter"] = {}
 
 
 for number,computer in ipairs(computers["collector"]) do
@@ -77,7 +80,7 @@ end
 
 function qioScan()
     for count, itemData in ipairs(data) do
-        print(itemData.." "..itemData.name)
+        --print(itemData.." "..itemData.name)
         local assigned = false
         while not assigned do
             for i,qioA in ipairs(usecomputers["qioAmt"]) do

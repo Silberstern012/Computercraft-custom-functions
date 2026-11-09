@@ -9,16 +9,6 @@
         "outAmt": 4,
         "tAmt": 1024
     },
-    "oak_planks": {
-        "name": "minecraft:oak_planks",
-        "recipe": [
-            "", "", "",
-            "", "minecraft:oak_log", "",
-            "", "", ""
-        ],
-        "outAmt": 4,
-        "tAmt": 1024
-    },
     "minecraft:oak_slab": {
         "name": "minecraft:oak_slab",
         "recipe": [
