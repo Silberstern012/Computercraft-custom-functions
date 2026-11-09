@@ -1,7 +1,7 @@
 -- by Silberstern012 (Silver)
 
 modem = peripheral.find("modem", rednet.open)
-qio = peripheral.wrap("left")
+qio = peripheral.find("qioRedstoneAdapter")
 
 updating = false
 called = false

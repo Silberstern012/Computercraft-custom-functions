@@ -77,6 +77,7 @@ end
 
 function qioScan()
     for count, itemData in ipairs(data) do
+        print(itemData.." "..itemData.name)
         local assigned = false
         while not assigned do
             for i,qioA in ipairs(usecomputers["qioAmt"]) do
@@ -163,7 +164,7 @@ function vis()
   end
 end
 s,e=pcall(function()
-parallel.waitForAll(qioScan,upd,vis)
+parallel.waitForAll(qioScan,upd)
 end)
 term.clear()
 term.setCursorPos(1,1)
