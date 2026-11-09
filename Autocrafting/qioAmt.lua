@@ -14,7 +14,7 @@ function run()
       called = true
     end
     if protocol == "task" then
-      rednet.send(sender,getAmt(message),"taskFinish_amt")
+      rednet.send(sender,{message,getAmt(message)},"taskFinish_amt")
     end
   end  
 end
@@ -73,8 +73,7 @@ function getAmt(item)
     end
 
     ::exit_getAmt::
-    ret = {item,out}
-    return ret
+    return out
 end
 
 function checkR(value)

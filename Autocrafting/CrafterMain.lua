@@ -58,7 +58,8 @@ function rec()
     while true do
         local event, sender, message, protocol = os.pullEvent("rednet_message")
         if protocol == "taskFinish_amt" then
-            for i,k in pairs(message) do print(k) end
+            print(message)
+            --for i,k in pairs(message) do print(k) end
             items[message[1]] = message[2]
             for pos,id in ipairs(runcomputers["qioAmt"]) do
                 if id == sender then table.remove(runcomputers["qioAmt"],pos) end
