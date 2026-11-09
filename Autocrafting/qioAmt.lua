@@ -53,8 +53,9 @@ function getAmt(item)
 
     
     laststate = checkR(val)
+    counter = 0
     while true do
-        if not laststate == checkR(val) then 
+        if not laststate == checkR(val) or counter>200 then 
             if laststate then
                 out = val
                 goto exit_getAmt
@@ -71,6 +72,7 @@ function getAmt(item)
         else
             val = val+1
         end
+        counter=counter+1
     end
 
     ::exit_getAmt::
