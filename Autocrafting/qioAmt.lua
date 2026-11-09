@@ -76,6 +76,7 @@ function getAmt(item)
     ::exit_getAmt::
     qio.clearTargetItem()
     qio.setTriggerAmount(0)
+    if qio.isInverted() then qio.invertSignal() end
     return out
 end
 
