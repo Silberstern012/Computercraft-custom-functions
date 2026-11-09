@@ -244,12 +244,50 @@ end
 --Crafter--
 
 function craft(msg)
-    local recipe = msg.recipe
-    local amount = msg.amt
-    
-    
+  local recipe = msg.recipe
+  local amount = msg.amt
+  local slots = {1,2,3,5,6,7,9,10,11}
+
+  for i=1,16 do 
+    output.pullItems(currentName,i,64)
+  end
+
+  for i,rslot in ipairs(reciepe) do
+    local itemamt = amt
+    for c=1, input.size() do
+      if input.getItemDetail(c).name == rslot then
+        input.pushItems(currentName, c, itemamt, slots[i])
+        itemamt = itemamt - input.getItemDetail(c).amount
+      end
+    end
+  end
+
+  turtle.craft(amt)
+
+  for i=1,16 do 
+    output.pullItems(currentName,i,64)
+  end
+end
 
 
+--Crafter-old--
 
-
+function craft(msg)
+  local rshape = nil
+  recipe = msg.recipe
+  
+  for slot,item in ipairs(recipe) do
+    for cslot=1,input.size() do
+      item = input.getItemDetail(cslot)
+      if item == citem then
+        input.pushItems(currentName,64,slot)
+      end
+      goto nslot
+    end
+    ::nslot::
+  end
+  turtle.craft(64)
+  for i=1,16 do
+    output.pullItems(currentName,i)
+  end
 end

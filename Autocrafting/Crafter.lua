@@ -15,28 +15,34 @@ function run()
       rednet.send(sender,"crafter","preload")
       called = true
     elseif protocol == "craftTask" then
-      rednet.send(sender,craft(message),"taskFinish")
+      rednet.send(sender,craft(message),"taskFinish_crafter")
     end
   end  
 end
 
 function craft(msg)
-  local rshape = nil
-  recipe = msg.recipe
-  
-  for slot,item in ipairs(recipe) do
-    for cslot=1,input.size() do
-      item = input.getItemDetail(cslot)
-      if item == citem then
-        input.pushItems(currentName,64,slot)
-      end
-      goto nslot
-    end
-    ::nslot::
+  local recipe = msg.recipe
+  local amount = msg.amt
+  local slots = {1,2,3,5,6,7,9,10,11}
+
+  for i=1,16 do 
+    output.pullItems(currentName,i,64)
   end
-  turtle.craft(64)
-  for i=1,16 do
-    output.pullItems(currentName,i)
+
+  for i,rslot in ipairs(reciepe) do
+    local itemamt = amt
+    for c=1, input.size() do
+      if input.getItemDetail(c).name == rslot then
+        input.pushItems(currentName, c, itemamt, slots[i])
+        itemamt = itemamt - input.getItemDetail(c).amount
+      end
+    end
+  end
+
+  turtle.craft(amt)
+
+  for i=1,16 do 
+    output.pullItems(currentName,i,64)
   end
 end
 

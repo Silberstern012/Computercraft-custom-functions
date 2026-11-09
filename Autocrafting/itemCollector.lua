@@ -18,7 +18,7 @@ function run()
       rednet.send(sender,"collector","preload")
       called = true
     elseif protocol == "collectTask" then
-      rednet.send(sender,collect(message),"taskFinish")
+      rednet.send(sender,collect(message),"taskFinish_collect")
     elseif protocol == "number" then
       sysnum = message   
     end

@@ -1,7 +1,7 @@
 -- by Silberstern012 (Silver)
 
 modem = peripheral.find("modem", rednet.open)
-qior = peripheral.wrap("left")
+qio = peripheral.wrap("left")
 
 updating = false
 called = false
@@ -14,7 +14,7 @@ function run()
       called = true
     end
     if protocol == "task" then
-      rednet.send(sender,getAmt(message),"taskFinish")
+      rednet.send(sender,getAmt(message),"taskFinish_amt")
     end
   end  
 end
@@ -73,7 +73,7 @@ function getAmt(item)
     end
 
     ::exit_getAmt::
-    return out
+    return {item,out}
 end
 
 function checkR(value)
