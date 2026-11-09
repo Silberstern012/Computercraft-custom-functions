@@ -51,6 +51,7 @@ function getAmt(item)
         end
     end
 
+    
     laststate = checkR(val)
     while true do
         if not laststate == checkR(val) then 
