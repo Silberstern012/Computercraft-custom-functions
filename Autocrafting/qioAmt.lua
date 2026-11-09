@@ -31,7 +31,7 @@ function getAmt(item)
     qio.setTargetItem(item)
 
     if not qio.isInverted() then qio.invertSignal() end
-    if checkR() then out = 0 goto exit_getAmt end
+    if checkR(0) then out = 0 goto exit_getAmt end
     
     if checkR(1) then out = 0 goto exit_getAmt
     elseif checkR(2) then out = 1 goto exit_getAmt
@@ -51,7 +51,7 @@ function getAmt(item)
         end
     end
 
-    local laststate = checkR(val)
+    laststate = checkR(val)
     while true do
         if not laststate == checkR(val) then 
             if laststate then
@@ -74,7 +74,7 @@ function getAmt(item)
 
     ::exit_getAmt::
     qio.clearTargetItem()
-    
+    qio.setTriggerAmount(0)
     return out
 end
 
