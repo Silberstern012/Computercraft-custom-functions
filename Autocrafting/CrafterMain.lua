@@ -169,7 +169,7 @@ function vis()
   end
 end
 s,e=pcall(function()
-parallel.waitForAll(rec,qioScan,upd)
+parallel.waitForAll(rec,qioScan,upd,vis)
 end)
 term.clear()
 term.setCursorPos(1,1)
