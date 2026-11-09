@@ -73,7 +73,8 @@ function getAmt(item)
     end
 
     ::exit_getAmt::
-    return {item,out}
+    ret = {item,out}
+    return ret
 end
 
 function checkR(value)

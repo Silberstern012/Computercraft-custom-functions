@@ -58,6 +58,7 @@ function rec()
     while true do
         local event, sender, message, protocol = os.pullEvent("rednet_message")
         if protocol == "taskFinish_amt" then
+            for i,k in pairs(message) do print(k) end
             items[message[1]] = message[2]
             for pos,id in ipairs(runcomputers["qioAmt"]) do
                 if id == sender then table.remove(runcomputers["qioAmt"],pos) end
@@ -79,11 +80,11 @@ function rec()
 end
 
 function qioScan()
-    for count, itemData in ipairs(data) do
+    for count, itemData in pairs(data) do
         print(itemData.name)
         local assigned = false
         while not assigned do
-            for i,qioA in ipairs(usecomputers["qioAmt"]) do
+            for i,qioA in pairs(usecomputers["qioAmt"]) do
                 table.insert(runcomputers["qioAmt"],1,qioA)
                 table.remove(usecomputers["qioAmt"],i)
                 rednet.send(qioA, itemData.name, "task")
