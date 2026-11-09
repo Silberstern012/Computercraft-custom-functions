@@ -85,7 +85,7 @@ function qioScan()
         print(itemData.name)
         local assigned = false
         while not assigned do
-            for i,qioA in pairs(usecomputers["qioAmt"]) do
+            for i,qioA in pairs(usecomputers.qioAmt) do
                 table.insert(runcomputers["qioAmt"],1,qioA)
                 table.remove(usecomputers["qioAmt"],i)
                 rednet.send(qioA, itemData.name, "task")

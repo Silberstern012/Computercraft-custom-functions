@@ -31,12 +31,12 @@ function getAmt(item)
     qio.setTargetItem(item)
 
     if not qio.isInverted() then qio.invertSignal() end
-    if checkR() then return 0 end
+    if checkR() then out = 0 goto exit_getAmt end
     
-    if checkR(1) then return 0
-    elseif checkR(2) then return 1
-    elseif checkR(3) then return 2 
-    elseif checkR(4) then return 3
+    if checkR(1) then out = 0 goto exit_getAmt
+    elseif checkR(2) then out = 1 goto exit_getAmt
+    elseif checkR(3) then out = 2 goto exit_getAmt
+    elseif checkR(4) then out = 3 goto exit_getAmt
     end
 
     while not checkR(val) do
@@ -73,13 +73,15 @@ function getAmt(item)
     end
 
     ::exit_getAmt::
+    qio.clearTargetItem()
+    
     return out
 end
 
 function checkR(value)
     if value then qio.setTriggerAmount(value) end
     sleep(0.3)
-    if redstone.getAnalogInput("bottom") == 13 then return true else return false end
+    if redstone.getAnalogInput("bottom") >= 13 then return true else return false end
 end
 
 
