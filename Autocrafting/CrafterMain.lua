@@ -140,7 +140,6 @@ function maincrafting()
                         end
                         sleep(0.1)
                         ::end_crafter::
-                        end
                     end
                 end
             end
