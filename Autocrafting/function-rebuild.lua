@@ -240,8 +240,49 @@ function numericSort(a,b)
   return nA < nB
 end  
 
-
 --Crafter--
+
+function craft(msg)
+  local recipe = msg.recipe
+  local amount = msg.amt
+  local items = msg.items
+  local slots = {1,2,3,5,6,7,9,10,11}
+  
+  for i=1,16 do 
+    output.pullItems(currentName,i,64)
+  end
+
+  local itemsCollected = false
+  while not itemsCollected do
+    local iic = {}
+    for _,item in pairs(input.list()) do
+      iic.[item.name] = (iic[item.name] or 0) + item.count
+    end
+    
+    itemsCollected = true
+    for _,item in pairs(items) do
+      if iic.[item.name] or 0 < item.amount then itemsCollected = false end
+    end
+  end
+
+  for i,rslot in ipairs(recipe) do
+    local itemamt = amount
+    for c=1, input.size() do
+      if input.getItemDetail(c).name == rslot then
+        input.pushItems(currentName, c, itemamt, slots[i])
+        itemamt = itemamt - input.getItemDetail(c).amount
+      end
+    end
+  end
+
+  turtle.craft(amt)
+
+  for i=1,16 do 
+    output.pullItems(currentName,i,64)
+  end
+end
+
+--Crafter--07.11.26--
 
 function craft(msg)
   local recipe = msg.recipe

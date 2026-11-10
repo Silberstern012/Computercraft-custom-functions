@@ -49,6 +49,8 @@ runcomputers["qioAmt"] = {}
 runcomputers["collector"] = {}
 runcomputers["crafter"] = {}
 
+sortedcrafters = {table.unpack(computers["crafter"])}
+
 scanned = false
 
 
@@ -108,25 +110,38 @@ function maincrafting()
                 if itemData.tAmt < items[itemData.name] then
                     local neededItems = {}
                     local nitemAmt = itemData.tAmt - items[itemData.name]
-                    if nitemAmt>64 then nitemAmt = 64 
-                    for _,nitem in pairs(itemData.recipe) do
-                        if nitem == "" then goto end_collector end 
-                        local assigned_c = false
-                        while not assigned_c do
-                            for _,collector in pairs(usecomputers["collector"]) do
-
-
-
-                                assigned_c = true
-                                goto end_collector
+                    if nitemAmt>64 then nitemAmt = 64 end 
+                    
+                    local assigned_c = false
+                    while not assigned_c do
+                        for _,crafter in pairs(usecomputers["crafter"]) do
+                            
+                            local crafterinid = nil
+                            for c,sc in pairs(sortedcrafters) do
+                                if sc == crafter then crafterinid = c end
                             end
+
+                            local itemlist = {}
+                            for _,nitem in pairs(itemData.recipe) do
+                                if nitem == "" then goto end_collector end 
+                                if not itemlist[nitem] then itemlist[nitem] = {name=nitem,count=0} end
+                                itemlist[nitem]["count"] = itemlist[nitem]["count"] + nitemAmt
+                            end
+
+                            for _,itm in ipairs(itemlist) do
+                                for _,collector in pairs(usecomputers["collector"]) do
+                                    rednet.send(collector,{name=itm.name,amt=itm.count,out=crafterinid},"collectTask")
+                                    goto next_collector
+                                end
+                                ::next_collector::
+                            end
+                            assigned_c = true
+                            rednet.send(crafter,{recipe=itemData.recipe,amt=nitemAmt,items=itemlist},"craftTask")
+                        end
                         sleep(0.1)
-                        ::end_collector::
+                        ::end_crafter::
                         end
                     end
-
-
-
                 end
             end
         end
@@ -194,7 +209,7 @@ function vis()
   end
 end
 s,e=pcall(function()
-parallel.waitForAll(rec,qioScan,upd,vis)
+parallel.waitForAll(rec,qioScan,maincrafting,upd,vis)
 end)
 term.clear()
 term.setCursorPos(1,1)
