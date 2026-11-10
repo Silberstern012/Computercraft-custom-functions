@@ -49,6 +49,8 @@ runcomputers["qioAmt"] = {}
 runcomputers["collector"] = {}
 runcomputers["crafter"] = {}
 
+scanned = false
+
 
 for number,computer in ipairs(computers["collector"]) do
     rednet.send(computer, number, "number")
@@ -99,14 +101,34 @@ function qioScan()
 end
 
 
-function mainQIOCollector()
+function maincrafting()
     while true do
-        for i,collector in ipairs(qiocollectors) do
-            qioucollector[i] = collector
-            rednet.send(collector, qiolocalData[#qiolocalData].name, "task")
-            usedData[#qiousedData+1] = localData[#qiolocalData]
-            table.remove(#qiolocalData)
-            qiocollectors[i] = nil
+        if scanned then
+            for count, itemData in pairs(data) do
+                if itemData.tAmt < items[itemData.name] then
+                    local neededItems = {}
+                    local nitemAmt = itemData.tAmt - items[itemData.name]
+                    if nitemAmt>64 then nitemAmt = 64 
+                    for _,nitem in pairs(itemData.recipe) do
+                        if nitem == "" then goto end_collector end 
+                        local assigned_c = false
+                        while not assigned_c do
+                            for _,collector in pairs(usecomputers["collector"]) do
+
+
+
+                                assigned_c = true
+                                goto end_collector
+                            end
+                        sleep(0.1)
+                        ::end_collector::
+                        end
+                    end
+
+
+
+                end
+            end
         end
     end
 end
@@ -135,6 +157,7 @@ end
 
 function upd() 
     while true do
+        if #items >= #data then scanned = true end
         if redstone.getAnalogInput("right") >= 1 then
             print("Updating")
             UPDATE()
@@ -158,6 +181,8 @@ function vis()
         term.write("Crafter:    "..#computers.crafter)
         term.setCursorPos(3,7)
         term.write("Collectors: "..#computers.collector)
+        term.setCursorPos(3,9)
+        term.write("Items Scanned: "..#items)
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
     elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1
