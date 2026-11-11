@@ -19,8 +19,9 @@ function run()
     end
   end  
 end
-
+itc = "none"
 function craft(msg)
+  itc = msg.itemtocraft
   local recipe = msg.recipe
   local amount = msg.amt
   local items = msg.items
@@ -29,8 +30,6 @@ function craft(msg)
   for i=1,16 do 
     output.pullItems(currentName,i,64)
   end
-
-    for i=1,16 do output.pullItems(currentName,i,64) end
 
   local itemsCollected = false
   while not itemsCollected do
@@ -63,6 +62,7 @@ function craft(msg)
   for i=1,16 do 
     output.pullItems(currentName,i,64)
   end
+  itc = "none"
 end
 
 function UPDATE()
@@ -91,6 +91,8 @@ function vis()
     if not updating then term.write("Crafter  ---  by Silver")
       term.setCursorPos(2,4)
       term.write("Called: "..tostring(called))
+      term.setCursorPos(2,6)
+      term.write("Current Item: "..tostring(itc))
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
     elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1

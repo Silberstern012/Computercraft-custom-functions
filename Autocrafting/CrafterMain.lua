@@ -149,7 +149,7 @@ function maincrafting()
                                 ::next_collector::
                             end
                             assigned_c = true
-                            rednet.send(crafter,{recipe=itemData.recipe,amt=nitemAmt,items=itemlist},"craftTask")
+                            rednet.send(crafter,{itemtocraft=itemData.name,recipe=itemData.recipe,amt=nitemAmt,items=itemlist},"craftTask")
                         end
                         sleep(0.1)
                         ::end_crafter::
