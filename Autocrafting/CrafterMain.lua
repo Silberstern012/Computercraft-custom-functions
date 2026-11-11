@@ -126,8 +126,10 @@ function maincrafting()
                     
                     local assigned_c = false
                     while not assigned_c do
-                        for _,crafter in pairs(usecomputers["crafter"]) do
-                            
+                        for v,crafter in pairs(usecomputers["crafter"]) do
+                            table.insert(runcomputers["crafter"],1,crafter)
+                            table.remove(usecomputers["crafter"],v)
+
                             local crafterinid = nil
                             for c,sc in pairs(sortedcrafters) do
                                 if sc == crafter then crafterinid = c end
@@ -142,7 +144,9 @@ function maincrafting()
                             end
 
                             for _,itm in ipairs(itemlist) do
-                                for _,collector in pairs(usecomputers["collector"]) do
+                                for v,collector in pairs(usecomputers["collector"]) do
+                                    table.insert(runcomputers["collector"],1,collector)
+                                    table.remove(usecomputers["collector"],v)
                                     rednet.send(collector,{name=itm.name,amt=itm.count,out=crafterinid},"collectTask")
                                     goto next_collector
                                 end
@@ -195,7 +199,13 @@ end
 
 function vis()
   local ctr = 0
+  local bar = {"f","f","f","f","f","f","f","f","f","f",}
   while true do
+    for i = 1, 10 do
+        if tlen(items) >= tlen(data) * (i * 0.10) then
+            bar[i] = 0
+        end
+    end
     term.clear()
     term.setCursorPos(2,2)
     if not updating then term.write("CrafterMain  ---  by Silver")
@@ -208,8 +218,15 @@ function vis()
         term.write("Crafter:    "..#computers.crafter)
         term.setCursorPos(3,7)
         term.write("Collectors: "..#computers.collector)
-        term.setCursorPos(3,9)
+        term.setCursorPos(2,9)
+        term.write("Scanning Process: ")
+        term.setCursorPos(3,10)
+        term.blit("          ",table.unpack)
+        term.setCursorPos(3,11)
         term.write("Items Scanned: "..tlen(items))
+        term.setCursorPos(3,12)
+        term.write("Items in File: "..tlen(data))
+        
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
     elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1
