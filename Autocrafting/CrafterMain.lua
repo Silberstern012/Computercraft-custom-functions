@@ -31,6 +31,17 @@ function run()
     end    
 end
 
+function tlen(tabl)
+    if type(tabl) == "table" then
+        count = 0
+        for _,_ in pairs(tabl) do
+            count = count + 1
+        end
+    end
+    return count
+end
+
+
 function timr()
     sleep(3)
 end
@@ -105,7 +116,7 @@ end
 
 function maincrafting()
     while true do
-        if #items >= #data and #data>0 then scanned = true end
+        if tlen(items) >= #data and #data>0 then scanned = true end
         if scanned then
             for count, itemData in pairs(data) do
                 if itemData.tAmt < items[itemData.name] then
@@ -198,7 +209,7 @@ function vis()
         term.setCursorPos(3,7)
         term.write("Collectors: "..#computers.collector)
         term.setCursorPos(3,9)
-        term.write("Items Scanned: "..#items)
+        term.write("Items Scanned: "..tlen(items))
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
     elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1
