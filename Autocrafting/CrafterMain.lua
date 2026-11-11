@@ -105,6 +105,7 @@ end
 
 function maincrafting()
     while true do
+        if #items >= #data and #data>0 then scanned = true end
         if scanned then
             for count, itemData in pairs(data) do
                 if itemData.tAmt < items[itemData.name] then
@@ -123,9 +124,10 @@ function maincrafting()
 
                             local itemlist = {}
                             for _,nitem in pairs(itemData.recipe) do
-                                if nitem == "" then goto end_collector end 
+                                if nitem == "" then goto nextItem end 
                                 if not itemlist[nitem] then itemlist[nitem] = {name=nitem,count=0} end
                                 itemlist[nitem]["count"] = itemlist[nitem]["count"] + nitemAmt
+                                ::nextItem::
                             end
 
                             for _,itm in ipairs(itemlist) do
@@ -144,6 +146,7 @@ function maincrafting()
                 end
             end
         end
+        sleep(0.1)
     end
 end
 
@@ -171,7 +174,6 @@ end
 
 function upd() 
     while true do
-        if #items >= #data then scanned = true end
         if redstone.getAnalogInput("right") >= 1 then
             print("Updating")
             UPDATE()

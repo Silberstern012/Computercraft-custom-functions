@@ -30,16 +30,18 @@ function craft(msg)
     output.pullItems(currentName,i,64)
   end
 
+    for i=1,16 do output.pullItems(currentName,i,64) end
+
   local itemsCollected = false
   while not itemsCollected do
     local iic = {}
     for _,item in pairs(input.list()) do
-      iic.[item.name] = (iic[item.name] or 0) + item.count
+      iic[item.name] = (iic[item.name] or 0) + item.count
     end
     
     itemsCollected = true
     for _,item in pairs(items) do
-      if iic.[item.name] or 0 < item.amount then itemsCollected = false end
+      if iic[item.name] or 0 < item.amount then itemsCollected = false end
     end
   end
 
@@ -54,7 +56,7 @@ function craft(msg)
   end
 
   turtle.craft(amt)
-
+  sleep(0.5)
   for i=1,16 do 
     output.pullItems(currentName,i,64)
   end
