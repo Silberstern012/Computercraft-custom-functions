@@ -69,6 +69,10 @@ for number,computer in ipairs(computers["collector"]) do
     rednet.send(computer, number, "number")
 end
 
+for number,computer in ipairs(computers["crafter"]) do
+    rednet.send(computer, number, "number")
+end
+
 function rec()
     while true do
         local event, sender, message, protocol = os.pullEvent("rednet_message")
@@ -199,13 +203,7 @@ end
 
 function vis()
   local ctr = 0
-  local bar = {"f","f","f","f","f","f","f","f","f","f",}
   while true do
-    for i = 1, 10 do
-        if tlen(items) >= tlen(data) * (i * 0.10) then
-            bar[i] = 0
-        end
-    end
     term.clear()
     term.setCursorPos(2,2)
     if not updating then term.write("CrafterMain  ---  by Silver")
@@ -221,10 +219,8 @@ function vis()
         term.setCursorPos(2,9)
         term.write("Scanning Process: ")
         term.setCursorPos(3,10)
-        term.blit("          ",table.unpack)
-        term.setCursorPos(3,11)
         term.write("Items Scanned: "..tlen(items))
-        term.setCursorPos(3,12)
+        term.setCursorPos(3,11)
         term.write("Items in File: "..tlen(data))
         
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
