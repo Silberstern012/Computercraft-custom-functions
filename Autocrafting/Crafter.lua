@@ -31,6 +31,7 @@ function numericSort(a,b)
   local nB = tonumber(nameB:match("_(%d+)$")) or 0
   return nA < nB
 end
+
 itemsNeeded = {}
 itc = "none"
 function craft(msg)
