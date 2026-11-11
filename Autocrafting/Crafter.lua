@@ -41,16 +41,19 @@ function craft(msg)
     
     itemsCollected = true
     for _,item in pairs(items) do
-      if iic[item.name] or 0 < item.amount then itemsCollected = false end
+      if iic[item.name] or 0 < item.count then itemsCollected = false end
     end
   end
 
   for i,rslot in ipairs(recipe) do
     local itemamt = amount
     for c=1, input.size() do
-      if input.getItemDetail(c).name == rslot then
-        input.pushItems(currentName, c, itemamt, slots[i])
-        itemamt = itemamt - input.getItemDetail(c).amount
+      itemDetail = input.getItemDetail(c)
+      if itemDetail then
+        if itemDetail.name == rslot then
+          input.pushItems(currentName, c, itemamt, slots[i])
+          itemamt = itemamt - itemDetail.amount
+        end
       end
     end
   end

@@ -116,7 +116,7 @@ end
 
 function maincrafting()
     while true do
-        if tlen(items) >= #data and #data>0 then scanned = true end
+        if tlen(items) >= tlen(data) and tlen(data)>0 then scanned = true end
         if scanned then
             for count, itemData in pairs(data) do
                 if itemData.tAmt < items[itemData.name] then
@@ -133,7 +133,7 @@ function maincrafting()
                                 if sc == crafter then crafterinid = c end
                             end
 
-                            local itemlist = {}
+                            itemlist = {}
                             for _,nitem in pairs(itemData.recipe) do
                                 if nitem == "" then goto nextItem end 
                                 if not itemlist[nitem] then itemlist[nitem] = {name=nitem,count=0} end
