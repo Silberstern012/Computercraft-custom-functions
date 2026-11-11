@@ -110,7 +110,7 @@ function vis()
       term.write("Current Item: "..tostring(itc))
       term.setCursorPos(2,8)
       term.write("Needed Items:")
-      for i, itm in (itemsNeeded) do
+      for i, itm in ipairs(itemsNeeded) do
         term.setCursorPos(2,8+i)
         term.write(itm.name.." "..itm.cnt)
       end
