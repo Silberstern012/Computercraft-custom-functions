@@ -123,7 +123,7 @@ function maincrafting()
         if tlen(items) >= tlen(data) and tlen(data)>0 then scanned = true end
         if scanned then
             for count, itemData in pairs(data) do
-                if itemData.tAmt < items[itemData.name] then
+                if itemData.tAmt > items[itemData.name] then
                     local neededItems = {}
                     local nitemAmt = itemData.tAmt - items[itemData.name]
                     if nitemAmt>64 then nitemAmt = 64 end 

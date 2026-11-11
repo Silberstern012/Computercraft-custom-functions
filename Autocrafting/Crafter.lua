@@ -31,7 +31,7 @@ function numericSort(a,b)
   local nB = tonumber(nameB:match("_(%d+)$")) or 0
   return nA < nB
 end
-
+itemsNeeded = {}
 itc = "none"
 function craft(msg)
   itc = msg.itemtocraft
@@ -50,10 +50,10 @@ function craft(msg)
     for _,item in pairs(input.list()) do
       iic[item.name] = (iic[item.name] or 0) + item.count
     end
-    
+    itemsNeeded = {}
     itemsCollected = true
     for _,item in pairs(items) do
-      if iic[item.name] or 0 < item.count then itemsCollected = false end
+      if iic[item.name] or 0 <= item.count then itemsCollected = false itemsNeeded[item.name] = {name=item.name,cnt=item.count} end
     end
   end
 
@@ -75,6 +75,7 @@ function craft(msg)
   for i=1,16 do 
     output.pullItems(currentName,i,64)
   end
+  itemsNeeded = {}
   itc = "none"
 end
 
@@ -106,6 +107,12 @@ function vis()
       term.write("Called: "..tostring(called))
       term.setCursorPos(2,6)
       term.write("Current Item: "..tostring(itc))
+      term.setCursorPos(2,8)
+      term.write("Needed Items:")
+      for i, itm in (itemsNeeded) do
+        term.setCursorPos(2,8+i)
+        term.write(itm.name.." "..itm.cnt)
+      end
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
     elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1
