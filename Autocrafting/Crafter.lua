@@ -112,7 +112,9 @@ function vis()
       term.setCursorPos(2,4)
       term.write("Called: "..tostring(called))
       term.setCursorPos(2,5)
-      term.write("Input: "..peripheral.getName(input))
+      inName = "none"
+      if input then inName = peripheral.getName(input) end 
+      term.write("Input: "..inName)
       term.setCursorPos(2,6)
       term.write("Current Item: "..tostring(itc))
       term.setCursorPos(2,8)
