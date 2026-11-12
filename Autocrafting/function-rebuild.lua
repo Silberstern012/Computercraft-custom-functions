@@ -332,3 +332,6 @@ function craft(msg)
     output.pullItems(currentName,i)
   end
 end
+
+
+function numericSort(a,b) local nameA = type(a) == "string" and a or tostring(a or "") local nameB = type(b) == "string" and b or tostring(b or "") local nA = tonumber(nameA:match("_(%d+)$")) or 0 local nB = tonumber(nameB:match("_(%d+)$")) or 0 return nA < nB end

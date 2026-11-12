@@ -3,6 +3,7 @@
 modem = peripheral.find("modem", rednet.open)
 output = peripheral.find("sophisticatedstorage:chest")
 chests = {peripheral.find("minecraft:chest")}
+for i,chest in ipairs(chests) do if peripheral.getName(chest) == "back" then table.remove(chests,i) end end
 input = nil
 
 currentName = peripheral.wrap("bottom").getNameLocal()
@@ -18,8 +19,17 @@ function run()
     elseif protocol == "craftTask" then
       rednet.send(sender,craft(message),"taskFinish_crafter")
     elseif protocol == "number" then
-      table.sort(chests, numericSort)
-      input = chests[message]
+      chestNames = {}
+      for i,chest in ipairs(chests) do
+        chestNames[#chestNames+1]=peripheral.getName(chest)
+      end
+      table.sort(chestNames, numericSort)
+      inputChest = chestNames[message]
+      for i,chest in ipairs(chestNames) do
+        for c,chst in ipairs(chests) do
+          if chest == peripheral.getName(chst) then input = chst end
+        end
+      end
     end
   end  
 end

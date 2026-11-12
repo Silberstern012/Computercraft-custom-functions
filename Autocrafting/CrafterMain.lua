@@ -147,6 +147,10 @@ function maincrafting()
                                 ::nextItem::
                             end
 
+                            for item,amt in pairs(itemlist) do
+                               if items[item] < amt then goto next_item end 
+                            end
+
                             for _,itm in ipairs(itemlist) do
                                 for v,collector in pairs(usecomputers["collector"]) do
                                     table.insert(runcomputers["collector"],1,collector)
@@ -163,6 +167,7 @@ function maincrafting()
                         ::end_crafter::
                     end
                 end
+                ::next_item::
             end
         end
         sleep(0.1)
