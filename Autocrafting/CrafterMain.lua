@@ -148,7 +148,7 @@ function maincrafting()
                             end
 
                             for item,amt in pairs(itemlist) do
-                               if items[item] < amt then goto next_item end 
+                               if items[item] < item.count then goto next_item end 
                             end
 
                             for _,itm in ipairs(itemlist) do
