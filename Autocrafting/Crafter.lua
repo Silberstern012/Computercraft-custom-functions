@@ -25,10 +25,8 @@ function run()
       end
       table.sort(chestNames, numericSort)
       inputChest = chestNames[message]
-      for i,chest in ipairs(chestNames) do
-        for c,chst in ipairs(chests) do
-          if chest == peripheral.getName(chst) then input = chst end
-        end
+      for c,chst in ipairs(chests) do
+        if inputChest == peripheral.getName(chst) then input = chst end
       end
     end
   end  
