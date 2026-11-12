@@ -54,8 +54,13 @@ function craft(msg)
     itemsNeeded = {}
     itemsCollected = true
     for _,item in pairs(items) do
-      if iic[item.name] or 0 <= item.count then itemsCollected = false itemsNeeded[item.name] = {name=item.name,cnt=item.count} end
+      local have = iic[item.name] or 0
+      if have < item.count then
+        itemsCollected = false
+        itemsNeeded[item.name] = {name=item.name,cnt=item.count-have}
+      end
     end
+    sleep(0.1)
   end
 
   for i,rslot in ipairs(recipe) do
@@ -110,9 +115,11 @@ function vis()
       term.write("Current Item: "..tostring(itc))
       term.setCursorPos(2,8)
       term.write("Needed Items:")
-      for i, itm in ipairs(itemsNeeded) do
-        term.setCursorPos(2,8+i)
+      cnt=0
+      for i, itm in pairs(itemsNeeded) do
+        term.setCursorPos(2,8+cnt)
         term.write(itm.name.." "..itm.cnt)
+        cnt=cnt+1
       end
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
