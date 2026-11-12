@@ -70,7 +70,7 @@ function craft(msg)
       if itemDetail then
         if itemDetail.name == rslot then
           input.pushItems(currentName, c, itemamt, slots[i])
-          itemamt = itemamt - itemDetail.amount
+          itemamt = itemamt - itemDetail.count
         end
       end
     end
@@ -111,11 +111,13 @@ function vis()
     if not updating then term.write("Crafter  ---  by Silver")
       term.setCursorPos(2,4)
       term.write("Called: "..tostring(called))
+      term.setCursorPos(2,5)
+      term.write("Input: "..peripheral.getName(input))
       term.setCursorPos(2,6)
       term.write("Current Item: "..tostring(itc))
       term.setCursorPos(2,8)
       term.write("Needed Items:")
-      cnt=0
+      cnt=1
       for i, itm in pairs(itemsNeeded) do
         term.setCursorPos(2,8+cnt)
         term.write(itm.name.." "..itm.cnt)
