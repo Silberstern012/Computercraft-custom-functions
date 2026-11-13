@@ -58,7 +58,7 @@ function collect(details)
     
     local filter = {enabled = true, fuzzy = false, item = itemname,type = "QIO_ITEMSTACK_FILTER"}
     
-    imp.setImportWithoutFilter(false)
+    imp.setImportsWithoutFilter(false)
 
     qio.addFilter(filter)
 
@@ -82,7 +82,7 @@ function collect(details)
         end
     end
 
-    imp.setImportWithoutFilter(true)
+    imp.setImportsWithoutFilter(true)
 end
 
 function numericSort(a,b)
