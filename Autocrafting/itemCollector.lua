@@ -27,14 +27,22 @@ function run()
 end
 
 function cnp()
-    outputs = {peripheral.find("minecraft:chest")}
-    importer = {peripheral.find("mekanism:qio_importer")}
-    exporter = {peripheral.find("mekanism:qio_exporter")}
-  
-    for i,output in ipairs(outputs) do outputs[i]=peripheral.getName(output) end 
-    for i,import in ipairs(importer) do importer[i]=peripheral.getName(import) end
-    for i,export in ipairs(exporter) do exporter[i]=peripheral.getName(export) end
+    outputs = {}
+    exporter = {}
+    importer = {}
 
+
+    local names = peripheral.getNames()
+    for _, p in ipairs(names) do
+        if p:find("exporter") then
+            table.insert(exporter, p)
+        elseif p:find("importer") then
+            table.insert(importer, p)
+        elseif p:find("minecraft:chest") then
+            table.insert(outputs, p)
+        end
+    end
+  
     table.sort(outputs,numericSort)
     table.sort(importer,numericSort)
     table.sort(exporter,numericSort)
