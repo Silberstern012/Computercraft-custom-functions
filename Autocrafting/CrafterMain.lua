@@ -123,6 +123,7 @@ function maincrafting()
         if tlen(items) >= tlen(data) and tlen(data) > 0 then scanned = true end
         if scanned then
             for count, itemData in pairs(data) do
+                if itemData.isSource then goto nextitemloop end
                 local currentAmt = items[itemData.name] or 0
                 if itemData.tAmt > currentAmt then
                     local nitemAmt = math.min(itemData.tAmt - currentAmt, 64)
@@ -137,7 +138,7 @@ function maincrafting()
                         end
                     end
 
-                    local hasIngredients = true
+                    hasIngredients = true
                     for _, itm in pairs(itemlist) do
                         if (items[itm.name] or 0) < itm.count then
                             hasIngredients = false
@@ -178,9 +179,11 @@ function maincrafting()
                         end
                     end
                 end
+                ::nextitemloop::
             end
         end
         sleep(0.1)
+
     end
 end
 
