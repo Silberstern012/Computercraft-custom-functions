@@ -56,7 +56,7 @@ function cnp()
 end
 itemname = nil
 function collect(details)
-    local itemname = details.name
+    itemname = details.name
     local itemamt = details.amt
     local output = details.out
     
@@ -88,7 +88,7 @@ function collect(details)
     end
 
     imp.setImportsWithoutFilter(true)
-    itemname = nil
+
 end
 
 function numericSort(a,b)
