@@ -34,9 +34,9 @@ function cnp()
 
     local names = peripheral.getNames()
     for _, p in ipairs(names) do
-        if p:find("exporter") then
+        if p:find("qioExporter") then
             table.insert(exporter, p)
-        elseif p:find("importer") then
+        elseif p:find("qioImporter") then
             table.insert(importer, p)
         elseif p:find("minecraft:chest") then
             table.insert(outputs, p)
