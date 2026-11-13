@@ -30,7 +30,7 @@
     "minecraft:mangrove_slab": {"name":"minecraft:mangrove_slab","recipe":["","","","","","","minecraft:mangrove_planks","minecraft:mangrove_planks","minecraft:mangrove_planks"],"outAmt":6,"tAmt": 1024},
     "minecraft:cherry_slab": {"name":"minecraft:cherry_slab","recipe":["","","","","","","minecraft:cherry_planks","minecraft:cherry_planks","minecraft:cherry_planks"],"outAmt":6,"tAmt": 1024},
     "minecraft:pale_oak_slab": {"name":"minecraft:pale_oak_slab","recipe":["","","","","","","minecraft:pale_oak_planks","minecraft:pale_oak_planks","minecraft:pale_oak_planks"],"outAmt":6,"tAmt": 1024},
-    "minecraft:poplar_slab": {"name":"minecraft:_slab","recipe":["","","","","","","minecraft:_planks","minecraft:_planks","minecraft:_planks"],"outAmt":6,"tAmt": 1024},
+    "minecraft:poplar_slab": {"name":"minecraft:poplar_slab","recipe":["","","","","","","minecraft:poplar_planks","minecraft:poplar_planks","minecraft:poplar_planks"],"outAmt":6,"tAmt": 1024},
 
     "minecraft:oak_stairs": {"name":"minecraft:oak_stairs","recipe":["minecraft:oak_planks","","","minecraft:oak_planks","minecraft:oak_planks","","minecraft: oak_planks","minecraft:oak_planks","minecraft:oak_planks"],"outAmt":4,"tAmt":1024},
     "minecraft:spruce_stairs": {"name":"minecraft:spruce_stairs","recipe":["minecraft:spruce_planks","","","minecraft:spruce_planks","minecraft:spruce_planks","","minecraft: spruce_planks","minecraft:spruce_planks","minecraft:spruce_planks"],"outAmt":4,"tAmt":1024},
