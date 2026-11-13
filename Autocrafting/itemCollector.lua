@@ -20,7 +20,8 @@ function run()
     elseif protocol == "collectTask" then
       rednet.send(sender,collect(message),"taskFinish_collect")
     elseif protocol == "number" then
-      sysnum = message   
+      sysnum = message
+      cnp()
     end
   end  
 end
@@ -38,11 +39,11 @@ function cnp()
     table.sort(importer,numericSort)
     table.sort(exporter,numericSort)
 
-    imp = peripheral.find(importer[sysnum])
-    qio = peripheral.find(exporter[sysnum])
+    imp = peripheral.wrap(importer[sysnum])
+    qio = peripheral.wrap(exporter[sysnum])
 end
 
-function collectItem(details)
+function collect(details)
     local itemname = details.name
     local itemamt = details.amt
     local output = details.out
@@ -51,7 +52,7 @@ function collectItem(details)
     
     imp.setImportWithoutFilter(false)
 
-    exp.addFilter(filter)
+    qio.addFilter(filter)
 
     local containeria = 0
     while containeria < itemamt do
@@ -66,7 +67,8 @@ function collectItem(details)
     end
 
     for slot=1, container.size() do
-        if container.getItemDetail(slot) == itemname then
+        local item = container.getItemDetail(slot)
+        if item and item.name == itemname then
             container.pushItems(outputs[output],slot,itemamt)
             itemamt=itemamt-64
         end
