@@ -1,7 +1,7 @@
 -- by Silberstern012 (Silver)
 
 modem = peripheral.find("modem", rednet.open)
-container = peripheral.wrap("left")
+
 
 sysnum = nil 
 updating = false
@@ -27,6 +27,7 @@ function run()
 end
 
 function cnp()
+    container = {}
     outputs = {}
     exporter = {}
     importer = {}
@@ -35,18 +36,21 @@ function cnp()
     local names = peripheral.getNames()
     for _, p in ipairs(names) do
         if p:find("qioExporter") then
-            table.insert(exporter, p)
+            table.insert(exporter,p)
         elseif p:find("qioImporter") then
-            table.insert(importer, p)
+            table.insert(importer,p)
         elseif p:find("minecraft:chest") then
-            table.insert(outputs, p)
+            table.insert(outputs,p)
+        elseif p:find("vault") then
+            table.insert(container,p)
         end
     end
-  
+    table.sort(container,numericSort)
     table.sort(outputs,numericSort)
     table.sort(importer,numericSort)
     table.sort(exporter,numericSort)
-
+    
+    container = peripheral.wrap(container[sysnum])
     imp = peripheral.wrap(importer[sysnum])
     qio = peripheral.wrap(exporter[sysnum])
 end
@@ -131,3 +135,5 @@ function vis()
 end
 
 parallel.waitForAll(run,UPDATE,vis)
+
+for _,p in ipairs({peripheral.find("minecraft:chest")}) do print(peripheral.getName(p)) end
