@@ -127,6 +127,8 @@ function vis()
       term.write("Called: "..tostring(called))
       term.setCursorPos(2,5)
       term.write("Item: "..tostring(itemname))
+      term.setCursorPos(2,6)
+      term.write("SySnum: "..tostring(sysnum))
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
     elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1
