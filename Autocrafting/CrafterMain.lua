@@ -166,7 +166,6 @@ function maincrafting()
                                         collector = table.remove(usecomputers["collector"], 1)
                                         if not collector then sleep(0.1) end
                                     end
-                                    
                                     table.insert(runcomputers["collector"], 1, collector)
                                     rednet.send(collector, {name=itm.name,amt=itm.count,out=crafterinid}, "collectTask")
                                 end

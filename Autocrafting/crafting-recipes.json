@@ -302,9 +302,9 @@
     "minecraft:smoker": {
         "name": "minecraft:smoker",
         "recipe": [
-            "minecraft:oak_log", "minecraft:oak_log", "minecraft:oak_log",
-            "", "minecraft:furnace", "",
-            "minecraft:oak_log", "minecraft:oak_log", "minecraft:oak_log"
+            "", "minecraft:oak_log", "",
+            "minecraft:oak_log", "minecraft:furnace", "minecraft:oak_log",
+            "", "minecraft:oak_log", ""
         ],
         "outAmt": 1,
         "tAmt": 1024
@@ -313,8 +313,8 @@
         "name": "minecraft:blast_furnace",
         "recipe": [
             "minecraft:iron_ingot", "minecraft:iron_ingot", "minecraft:iron_ingot",
-            "minecraft:smooth_stone", "minecraft:furnace", "minecraft:smooth_stone",
-            "minecraft:iron_ingot", "minecraft:iron_ingot", "minecraft:iron_ingot"
+            "minecraft:iron_ingot", "minecraft:furnace", "minecraft:iron_ingot",
+            "minecraft:smooth_stone", "minecraft:smooth_stone", "minecraft:smooth_stone"
         ],
         "outAmt": 1,
         "tAmt": 1024
@@ -322,8 +322,8 @@
     "minecraft:campfire": {
         "name": "minecraft:campfire",
         "recipe": [
-            "minecraft:oak_log", "minecraft:oak_log", "minecraft:oak_log",
-            "minecraft:oak_log", "minecraft:coal", "minecraft:oak_log",
+            "", "minecraft:stick", "",
+            "minecraft:stick", "minecraft:coal", "minecraft:stick",
             "minecraft:oak_log", "minecraft:oak_log", "minecraft:oak_log"
         ],
         "outAmt": 1,
@@ -412,9 +412,9 @@
     "minecraft:bookshelf": {
         "name": "minecraft:bookshelf",
         "recipe": [
-            "minecraft:oak_planks", "minecraft:book", "minecraft:oak_planks",
-            "minecraft:oak_planks", "minecraft:book", "minecraft:oak_planks",
-            "minecraft:oak_planks", "minecraft:book", "minecraft:oak_planks"
+            "minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks",
+            "minecraft:book", "minecraft:book", "minecraft:book",
+            "minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks"
         ],
         "outAmt": 1,
         "tAmt": 1024
@@ -422,8 +422,8 @@
     "minecraft:loom": {
         "name": "minecraft:loom",
         "recipe": [
-            "minecraft:oak_planks", "minecraft:oak_planks", "minecraft:oak_planks",
-            "minecraft:stick", "minecraft:stick", "minecraft:stick",
+            "minecraft:string", "minecraft:string", "",
+            "minecraft:oak_planks", "minecraft:oak_planks", "",
             "", "", ""
         ],
         "outAmt": 1,

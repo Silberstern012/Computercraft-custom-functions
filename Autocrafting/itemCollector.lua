@@ -54,7 +54,7 @@ function cnp()
     imp = peripheral.wrap(importer[sysnum])
     qio = peripheral.wrap(exporter[sysnum])
 end
-
+itemname = nil
 function collect(details)
     local itemname = details.name
     local itemamt = details.amt
@@ -69,7 +69,7 @@ function collect(details)
     local containeria = 0
     while containeria < itemamt do
         containeria = 0
-        for _,itm in ipairs(container.list()) do
+        for _,itm in pairs(container.list()) do
             containeria=containeria+itm.count
         end
     end
@@ -87,6 +87,7 @@ function collect(details)
     end
 
     imp.setImportsWithoutFilter(true)
+    itemname = nil
 end
 
 function numericSort(a,b)
@@ -123,6 +124,8 @@ function vis()
     if not updating then term.write("itemCollector  ---  by Silver")
       term.setCursorPos(2,4)
       term.write("Called: "..tostring(called))
+      term.setCursorPos(2,5)
+      term.write("Item: "..tostring(itemname))
     elseif updating and ctr<1 then term.write("Updating |") ctr = ctr +1
     elseif updating and ctr<2 then term.write("Updating /") ctr = ctr +1
     elseif updating and ctr<3 then term.write("Updating -") ctr = ctr +1
