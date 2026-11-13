@@ -7,7 +7,7 @@
     "minecraft:dark_oak_log":{"isSource":true,"name":"minecraft:dark_oak_log"},
     "minecraft:mangrove_log":{"isSource":true,"name":"minecraft:mangrove_log"},
     "minecraft:cherry_log":{"isSource":true,"name":"minecraft:cherry_log"},
-    "minecraft:pale_oak_log":{"isSource":true,"name":"minecraft:pal_oak_log"},
+    "minecraft:pale_oak_log":{"isSource":true,"name":"minecraft:pale_oak_log"},
     "minecraft:poplar_log":{"isSource":true,"name":"minecraft:poplar_log"},
     
     "minecraft:oak_planks": {"name":"minecraft:oak_planks","recipe":["","","","", "minecraft:oak_log", "","","",""],"outAmt":4,"tAmt": 1024},
