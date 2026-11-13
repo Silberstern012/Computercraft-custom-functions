@@ -120,58 +120,65 @@ end
 
 function maincrafting()
     while true do
-        if tlen(items) >= tlen(data) and tlen(data)>0 then scanned = true end
+        if tlen(items) >= tlen(data) and tlen(data) > 0 then scanned = true end
         if scanned then
             for count, itemData in pairs(data) do
-                if itemData.tAmt > items[itemData.name] then
-                    local neededItems = {}
-                    local nitemAmt = itemData.tAmt - items[itemData.name]
-                    if nitemAmt>64 then nitemAmt = 64 end 
-                    
-                    local assigned_c = false
-                    while not assigned_c do
-                        for v,crafter in pairs(usecomputers["crafter"]) do
-                            table.insert(runcomputers["crafter"],1,crafter)
-                            table.remove(usecomputers["crafter"],v)
+                local currentAmt = items[itemData.name] or 0
+                if itemData.tAmt > currentAmt then
+                    local nitemAmt = math.min(itemData.tAmt - currentAmt, 64)
 
-                            local crafterinid = nil
-                            for c,sc in pairs(sortedcrafters) do
-                                if sc == crafter then crafterinid = c end
+                    local itemlist = {}
+                    for _, nitem in pairs(itemData.recipe) do
+                        if nitem ~= "" then
+                            if not itemlist[nitem] then 
+                                itemlist[nitem] = {name = nitem, count = 0} 
                             end
-
-                            itemlist = {}
-                            for _,nitem in pairs(itemData.recipe) do
-                                if nitem == "" then goto nextItem end 
-                                if not itemlist[nitem] then itemlist[nitem] = {name=nitem,count=0} end
-                                itemlist[nitem]["count"] = itemlist[nitem]["count"] + nitemAmt
-                                ::nextItem::
-                            end
-
-                            for _,itm in pairs(itemlist) do
-                                for item,amt in ipairs(items) do
-                                    if item == item then
-                                        if amt < itm.count then goto next_item end
-                                    end
-                                end 
-                            end
-
-                            for _,itm in ipairs(itemlist) do
-                                for v,collector in pairs(usecomputers["collector"]) do
-                                    table.insert(runcomputers["collector"],1,collector)
-                                    table.remove(usecomputers["collector"],v)
-                                    rednet.send(collector,{name=itm.name,amt=itm.count,out=crafterinid},"collectTask")
-                                    goto next_collector
-                                end
-                                ::next_collector::
-                            end
-                            assigned_c = true
-                            rednet.send(crafter,{itemtocraft=itemData.name,recipe=itemData.recipe,amt=nitemAmt,items=itemlist},"craftTask")
+                            itemlist[nitem].count = itemlist[nitem].count + nitemAmt
                         end
-                        sleep(0.1)
-                        ::end_crafter::
+                    end
+
+                    local hasIngredients = true
+                    for _, itm in pairs(itemlist) do
+                        if (items[itm.name] or 0) < itm.count then
+                            hasIngredients = false
+                            break
+                        end
+                    end
+
+                    if hasIngredients then
+                        local assigned_c = false
+                        while not assigned_c do
+                            local crafter = table.remove(usecomputers["crafter"], 1)                            
+                            if crafter then
+                                table.insert(runcomputers["crafter"], 1, crafter)
+
+                                local crafterinid = nil
+                                for c, sc in pairs(sortedcrafters) do
+                                    if sc == crafter then 
+                                        crafterinid = c 
+                                        break
+                                    end
+                                end
+
+                                for _, itm in pairs(itemlist) do
+                                    local collector = nil
+                                    while not collector do
+                                        collector = table.remove(usecomputers["collector"], 1)
+                                        if not collector then sleep(0.1) end
+                                    end
+                                    
+                                    table.insert(runcomputers["collector"], 1, collector)
+                                    rednet.send(collector, {name=itm.name,amt=itm.count,out=crafterinid}, "collectTask")
+                                end
+
+                                rednet.send(crafter, {itemtocraft=itemData.name,recipe=itemData.recipe,amt=nitemAmt,items=itemlist}, "craftTask")
+                                assigned_c = true
+                            else
+                                sleep(0.1)
+                            end
+                        end
                     end
                 end
-                ::next_item::
             end
         end
         sleep(0.1)
