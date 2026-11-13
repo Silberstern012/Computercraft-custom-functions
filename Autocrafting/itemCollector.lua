@@ -72,6 +72,7 @@ function collect(details)
         for _,itm in pairs(container.list()) do
             containeria=containeria+itm.count
         end
+        sleep(0.1)
     end
 
     for _,filt in ipairs(qio.getFilters()) do
