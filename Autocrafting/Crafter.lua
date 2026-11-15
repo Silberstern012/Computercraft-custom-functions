@@ -94,7 +94,6 @@ function craft(msg)
   end
   itemsNeeded = {}
   itc = "none"
-  if craft 
   return iout
 end
 
