@@ -79,7 +79,7 @@ function rec()
         if protocol == "taskFinish_amt" then
             --print(message)
             --for i,k in pairs(message) do print(k) end
-            items[message[1]] = items[message[1]] + message[2]
+            items[message[1]] = message[2]
             for pos,id in ipairs(runcomputers["qioAmt"]) do
                 if id == sender then table.remove(runcomputers["qioAmt"],pos) end
             end
