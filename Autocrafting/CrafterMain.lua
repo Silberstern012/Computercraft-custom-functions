@@ -79,7 +79,7 @@ function rec()
         if protocol == "taskFinish_amt" then
             --print(message)
             --for i,k in pairs(message) do print(k) end
-            items[message[1]] = items[message[1]]+message[2]
+            items[message[1]] = items[message[1]] + message[2]
             for pos,id in ipairs(runcomputers["qioAmt"]) do
                 if id == sender then table.remove(runcomputers["qioAmt"],pos) end
             end
@@ -94,6 +94,7 @@ function rec()
             for pos,id in ipairs(runcomputers["crafter"]) do
                 if id == sender then table.remove(runcomputers["crafter"],pos) end
             end
+            for item,details in pairs(message) do items[item] = items[item]+details end
             usecomputers["crafter"][#usecomputers["crafter"]+1] = sender    
         end
     end
@@ -226,7 +227,7 @@ function vis()
     term.setCursorPos(2,2)
     if not updating then term.write("CrafterMain  ---  by Silver")
         term.setCursorPos(2,4)
-        term.write("Connected Devices:")
+        term.write("Available Devices:")
         term.setCursorPos(3,5)
         --for device in pairs(computers) do print(device) print() end
         term.write("qioAmt:     "..#computers.qioAmt)

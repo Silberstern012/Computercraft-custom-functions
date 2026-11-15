@@ -84,13 +84,18 @@ function craft(msg)
     end
   end
 
-  turtle.craft(amt)
+  craft = turtle.craft(amt)
   sleep(0.5)
-  for i=1,16 do 
+  iout = {} 
+  for i=1,16 do
+    itm = turtle.getItemDetail(i,true) 
     output.pullItems(currentName,i,64)
+    if itm then iout[itm.name] = itm.count end
   end
   itemsNeeded = {}
   itc = "none"
+  if craft 
+  return iout
 end
 
 function UPDATE()
