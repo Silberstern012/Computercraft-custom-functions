@@ -84,7 +84,7 @@ function craft(msg)
     end
   end
 
-  craft = turtle.craft(amt)
+  turtle.craft(amt)
   sleep(0.5)
   iout = {} 
   for i=1,16 do
